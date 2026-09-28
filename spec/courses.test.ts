@@ -51,4 +51,36 @@ describe("course list", () => {
     for (const code of included) expect(html).toContain(code);
     for (const code of excluded) expect(html).not.toContain(code);
   });
+
+  it("ticking multiple levels shows courses from any of them (OR, not AND)", async () => {
+    const included = snapshot.courses
+      .filter((c) => [1000, 2000].includes(Number(c.courseCode[4]) * 1000))
+      .map((c) => c.courseCode);
+    const excluded = snapshot.courses
+      .filter((c) => ![1000, 2000].includes(Number(c.courseCode[4]) * 1000))
+      .map((c) => c.courseCode);
+    expect(included.length).toBeGreaterThan(0);
+    expect(excluded.length).toBeGreaterThan(0);
+
+    const res = await fetch(new URL("/?level=1000&level=2000", baseUrl));
+    const html = await res.text();
+    for (const code of included) expect(html).toContain(code);
+    for (const code of excluded) expect(html).not.toContain(code);
+  });
+
+  it("ticking multiple offerings shows courses matching any of them", async () => {
+    const included = snapshot.courses
+      .filter((c) => c.firstSemClassNumber !== null || !c.hasAnyOffering)
+      .map((c) => c.courseCode);
+    const excluded = snapshot.courses
+      .filter((c) => c.firstSemClassNumber === null && c.hasAnyOffering)
+      .map((c) => c.courseCode);
+    expect(included.length).toBeGreaterThan(0);
+    expect(excluded.length).toBeGreaterThan(0);
+
+    const res = await fetch(new URL("/?offering=first_sem&offering=no_offerings", baseUrl));
+    const html = await res.text();
+    for (const code of included) expect(html).toContain(code);
+    for (const code of excluded) expect(html).not.toContain(code);
+  });
 });

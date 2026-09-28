@@ -3,26 +3,37 @@ import Base from "../layouts/Base.astro";
 import { type Course, coursesScrapedAt, listCourses } from "../lib/db";
 
 const LEVELS = [1000, 2000, 3000, 4000, 6000, 8000] as const;
+const OFFERINGS = [
+  { value: "first_sem", label: "First Semester" },
+  { value: "second_sem", label: "Second Semester" },
+  { value: "no_offerings", label: "No current offerings" },
+] as const;
 
 function levelOf(course: Course): number {
   return Number(course.courseCode[4]) * 1000;
 }
 
+function offeringMatches(course: Course, offering: string): boolean {
+  if (offering === "first_sem") return course.firstSemClassNumber !== null;
+  if (offering === "second_sem") return course.secondSemClassNumber !== null;
+  if (offering === "no_offerings") return !course.hasAnyOffering;
+  return false;
+}
+
 const allCourses = listCourses();
 
 const q = (Astro.url.searchParams.get("q") ?? "").trim().toLowerCase();
-const offering = Astro.url.searchParams.get("offering") ?? "";
-const level = Astro.url.searchParams.get("level") ?? "";
+const selectedOfferings = Astro.url.searchParams.getAll("offering");
+const selectedLevels = Astro.url.searchParams.getAll("level").map(Number);
 
+// Each checkbox group is OR'd internally (tick "First Semester" and "Second
+// Semester" to see courses confirmed in either) and AND'd across groups.
 function matches(course: Course): boolean {
   const matchesQuery =
     q === "" || course.courseCode.toLowerCase().includes(q) || course.name.toLowerCase().includes(q);
   const matchesOffering =
-    offering === "" ||
-    (offering === "first_sem" && course.firstSemClassNumber !== null) ||
-    (offering === "second_sem" && course.secondSemClassNumber !== null) ||
-    (offering === "no_offerings" && !course.hasAnyOffering);
-  const matchesLevel = level === "" || levelOf(course) === Number(level);
+    selectedOfferings.length === 0 || selectedOfferings.some((o) => offeringMatches(course, o));
+  const matchesLevel = selectedLevels.length === 0 || selectedLevels.includes(levelOf(course));
   return matchesQuery && matchesOffering && matchesLevel;
 }
 
@@ -43,29 +54,35 @@ const anuUrl = (code: string) => `https://programsandcourses.anu.edu.au/2027/cou
     zero current offerings at all.
   </p>
 
-  <form method="get" action="/">
-    <label for="q">Search</label>
-    <input id="q" name="q" type="search" value={q} placeholder="code or title" />
+  <form method="get" action="/" class="filters">
+    <div class="filter-row">
+      <label for="q">Search</label>
+      <input id="q" name="q" type="search" value={q} placeholder="code or title" />
+    </div>
 
-    <label for="offering">Offering</label>
-    <select id="offering" name="offering">
-      <option value="" selected={offering === ""}>All</option>
-      <option value="first_sem" selected={offering === "first_sem"}>First Semester</option>
-      <option value="second_sem" selected={offering === "second_sem"}>Second Semester</option>
-      <option value="no_offerings" selected={offering === "no_offerings"}>No current offerings</option>
-    </select>
-
-    <label for="level">Level</label>
-    <select id="level" name="level">
-      <option value="" selected={level === ""}>All</option>
+    <fieldset>
+      <legend>Offering (tick any)</legend>
       {
-        LEVELS.map((lvl) => (
-          <option value={lvl} selected={level === String(lvl)}>
-            {lvl}
-          </option>
+        OFFERINGS.map((o) => (
+          <label>
+            <input type="checkbox" name="offering" value={o.value} checked={selectedOfferings.includes(o.value)} />
+            {o.label}
+          </label>
         ))
       }
-    </select>
+    </fieldset>
+
+    <fieldset>
+      <legend>Level (tick any)</legend>
+      {
+        LEVELS.map((lvl) => (
+          <label>
+            <input type="checkbox" name="level" value={lvl} checked={selectedLevels.includes(lvl)} />
+            {lvl}
+          </label>
+        ))
+      }
+    </fieldset>
 
     <button>Filter</button>
   </form>
