@@ -25,13 +25,28 @@ describe("course list", () => {
     expect(html).toContain("programsandcourses.anu.edu.au/2027/course/");
   });
 
-  it("filtering by status shows only courses carrying that status", async () => {
-    const status = "no_offerings";
-    const included = snapshot.courses.filter((c) => c.status === status).map((c) => c.courseCode);
-    const excluded = snapshot.courses.filter((c) => c.status !== status).map((c) => c.courseCode);
+  it("filtering by offering shows only courses with a current offering that semester", async () => {
+    const included = snapshot.courses.filter((c) => c.hasAnyOffering === false).map((c) => c.courseCode);
+    const excluded = snapshot.courses.filter((c) => c.hasAnyOffering !== false).map((c) => c.courseCode);
     expect(included.length).toBeGreaterThan(0);
 
-    const res = await fetch(new URL(`/?status=${status}`, baseUrl));
+    const res = await fetch(new URL("/?offering=no_offerings", baseUrl));
+    const html = await res.text();
+    for (const code of included) expect(html).toContain(code);
+    for (const code of excluded) expect(html).not.toContain(code);
+  });
+
+  it("filtering by level shows only courses at that level", async () => {
+    const level = 1000;
+    const included = snapshot.courses
+      .filter((c) => Number(c.courseCode[4]) * 1000 === level)
+      .map((c) => c.courseCode);
+    const excluded = snapshot.courses
+      .filter((c) => Number(c.courseCode[4]) * 1000 !== level)
+      .map((c) => c.courseCode);
+    expect(included.length).toBeGreaterThan(0);
+
+    const res = await fetch(new URL(`/?level=${level}`, baseUrl));
     const html = await res.text();
     for (const code of included) expect(html).toContain(code);
     for (const code of excluded) expect(html).not.toContain(code);

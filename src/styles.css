@@ -54,19 +54,8 @@ td {
   vertical-align: top;
 }
 
-.status-group {
-  border-left: 0.3rem solid #999;
-  padding-inline-start: 1rem;
-  margin-block: 2rem;
-}
-
-.status-mismatch,
-.status-no_offerings {
-  border-left-color: #b3261e;
-}
-
-.status-confirmed {
-  border-left-color: #1e6b3c;
+tr.no-offerings {
+  background: #fdecea;
 }
 
 #notes {

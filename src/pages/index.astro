@@ -2,104 +2,106 @@
 import Base from "../layouts/Base.astro";
 import { type Course, coursesScrapedAt, listCourses } from "../lib/db";
 
-const STATUS_ORDER = ["mismatch", "no_offerings", "confirmed", "other_semester"] as const;
+const LEVELS = [1000, 2000, 3000, 4000, 6000, 8000] as const;
 
-const STATUS_LABELS: Record<(typeof STATUS_ORDER)[number], string> = {
-  mismatch: "Listed as running First Semester 2027, but no such offering exists",
-  no_offerings: "Sits in ANU's course search, but has no current offerings at all",
-  confirmed: "Confirmed running First Semester 2027",
-  other_semester: "Genuinely runs, just not First Semester 2027",
-};
+function levelOf(course: Course): number {
+  return Number(course.courseCode[4]) * 1000;
+}
 
 const allCourses = listCourses();
 
 const q = (Astro.url.searchParams.get("q") ?? "").trim().toLowerCase();
-const statusFilter = Astro.url.searchParams.get("status") ?? "";
+const offering = Astro.url.searchParams.get("offering") ?? "";
+const level = Astro.url.searchParams.get("level") ?? "";
 
 function matches(course: Course): boolean {
   const matchesQuery =
     q === "" || course.courseCode.toLowerCase().includes(q) || course.name.toLowerCase().includes(q);
-  const matchesStatus = statusFilter === "" || course.status === statusFilter;
-  return matchesQuery && matchesStatus;
+  const matchesOffering =
+    offering === "" ||
+    (offering === "first_sem" && course.firstSemClassNumber !== null) ||
+    (offering === "second_sem" && course.secondSemClassNumber !== null) ||
+    (offering === "no_offerings" && !course.hasAnyOffering);
+  const matchesLevel = level === "" || levelOf(course) === Number(level);
+  return matchesQuery && matchesOffering && matchesLevel;
 }
 
 const filtered = allCourses.filter(matches);
-const visibleStatuses = statusFilter === "" ? STATUS_ORDER : STATUS_ORDER.filter((s) => s === statusFilter);
-const groups = visibleStatuses.map((status) => ({
-  status,
-  label: STATUS_LABELS[status],
-  courses: filtered.filter((course) => course.status === status),
-}));
 
 const anuUrl = (code: string) => `https://programsandcourses.anu.edu.au/2027/course/${code.toLowerCase()}`;
 ---
 
-<Base title="COMP courses — First Semester 2027">
-  <h1>COMP courses — First Semester 2027</h1>
+<Base title="COMP courses — 2027">
+  <h1>COMP courses — 2027</h1>
   <p>
     ANU's own course search only tells you what's on offer one course page at
     a time. This checked all {allCourses.length} COMP-prefixed courses' own
     Offerings pages directly (scraped {coursesScrapedAt.slice(0, 10)}): {" "}
-    {allCourses.filter((c) => c.status === "no_offerings").length} are listed as
-    if active but have zero current offerings, and {" "}
-    {allCourses.filter((c) => c.status === "mismatch").length} claim First Semester
-    2027 without a matching offering.
+    {allCourses.filter((c) => c.firstSemClassNumber).length} run First Semester,{" "}
+    {allCourses.filter((c) => c.secondSemClassNumber).length} run Second Semester, and{" "}
+    {allCourses.filter((c) => !c.hasAnyOffering).length} are listed as if active but have
+    zero current offerings at all.
   </p>
 
   <form method="get" action="/">
     <label for="q">Search</label>
     <input id="q" name="q" type="search" value={q} placeholder="code or title" />
-    <label for="status">Status</label>
-    <select id="status" name="status">
-      <option value="" selected={statusFilter === ""}>All</option>
+
+    <label for="offering">Offering</label>
+    <select id="offering" name="offering">
+      <option value="" selected={offering === ""}>All</option>
+      <option value="first_sem" selected={offering === "first_sem"}>First Semester</option>
+      <option value="second_sem" selected={offering === "second_sem"}>Second Semester</option>
+      <option value="no_offerings" selected={offering === "no_offerings"}>No current offerings</option>
+    </select>
+
+    <label for="level">Level</label>
+    <select id="level" name="level">
+      <option value="" selected={level === ""}>All</option>
       {
-        STATUS_ORDER.map((status) => (
-          <option value={status} selected={statusFilter === status}>
-            {STATUS_LABELS[status]} ({allCourses.filter((c) => c.status === status).length})
+        LEVELS.map((lvl) => (
+          <option value={lvl} selected={level === String(lvl)}>
+            {lvl}
           </option>
         ))
       }
     </select>
+
     <button>Filter</button>
   </form>
 
-  {
-    groups.map((group) => (
-      <section class={`status-group status-${group.status}`}>
-        <h2>
-          {group.label} ({group.courses.length})
-        </h2>
-        {group.courses.length === 0 ? (
-          <p>No courses in this category right now.</p>
-        ) : (
-          <table>
-            <thead>
-              <tr>
-                <th scope="col">Code</th>
-                <th scope="col">Title</th>
-                <th scope="col">ANU's claimed session</th>
-                <th scope="col">Class no.</th>
-                <th scope="col">Links</th>
-              </tr>
-            </thead>
-            <tbody>
-              {group.courses.map((course) => (
-                <tr>
-                  <td>{course.courseCode}</td>
-                  <td>{course.name}</td>
-                  <td>{course.catalogueSession || "(not listed)"}</td>
-                  <td>{course.classNumber ?? "—"}</td>
-                  <td>
-                    <a href={anuUrl(course.courseCode)}>ANU page</a>
-                    {" · "}
-                    <a href={`/notes/?course=${course.courseCode}`}>Add a note</a>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
-      </section>
-    ))
-  }
+  <p>
+    Showing {filtered.length} of {allCourses.length} courses.
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th scope="col">Code</th>
+        <th scope="col">Title</th>
+        <th scope="col">First Sem class no.</th>
+        <th scope="col">Second Sem class no.</th>
+        <th scope="col">ANU's claimed session</th>
+        <th scope="col">Links</th>
+      </tr>
+    </thead>
+    <tbody>
+      {
+        filtered.map((course) => (
+          <tr class={course.hasAnyOffering ? "" : "no-offerings"}>
+            <td>{course.courseCode}</td>
+            <td>{course.name}</td>
+            <td>{course.firstSemClassNumber ?? "—"}</td>
+            <td>{course.secondSemClassNumber ?? "—"}</td>
+            <td>{course.catalogueSession || "(not listed)"}</td>
+            <td>
+              <a href={anuUrl(course.courseCode)}>ANU page</a>
+              {" · "}
+              <a href={`/notes/?course=${course.courseCode}`}>Add a note</a>
+            </td>
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
 </Base>
