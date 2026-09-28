@@ -38,7 +38,7 @@ db.transaction((tx) => {
   tx.delete(courses).run();
   for (const course of coursesSnapshot.courses) {
     tx.insert(courses)
-      .values({ ...course, status: course.status as Course["status"], scrapedAt: coursesSnapshot.scrapedAt })
+      .values({ ...course, scrapedAt: coursesSnapshot.scrapedAt })
       .run();
   }
 });

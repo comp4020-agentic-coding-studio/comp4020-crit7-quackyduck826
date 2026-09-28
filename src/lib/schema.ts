@@ -14,13 +14,18 @@ import { int, sqliteTable, text } from "drizzle-orm/sqlite-core";
 export const courses = sqliteTable("courses", {
   courseCode: text("course_code").primaryKey(),
   name: text().notNull(),
-  // ANU's own "Session" field from the catalogue search — what it *claims*.
+  // ANU's own "Session" field from the catalogue search — what it *claims*,
+  // kept alongside the scraped truth below so a reader can compare them.
   catalogueSession: text("catalogue_session").notNull().default(""),
-  catalogueClaimsS1: int("catalogue_claims_s1", { mode: "boolean" }).notNull(),
-  // The real class number read from the course's own Offerings page, or null
-  // if First Semester 2027 has no such offering there.
-  classNumber: text("class_number"),
-  status: text({ enum: ["confirmed", "mismatch", "no_offerings", "other_semester"] }).notNull(),
+  // The real class number read from each semester's own Offerings page, or
+  // null if that session has no such offering there. This is the
+  // authoritative signal — catalogueSession above is not trusted on its own.
+  firstSemClassNumber: text("first_sem_class_number"),
+  secondSemClassNumber: text("second_sem_class_number"),
+  // Whether the course's own page has ANY current offering at all (any
+  // session, any year) — false despite sitting in ANU's course search as if
+  // live is the most common surprise this app surfaces.
+  hasAnyOffering: int("has_any_offering", { mode: "boolean" }).notNull().default(false),
   scrapedAt: text("scraped_at").notNull(),
 });
 export type Course = typeof courses.$inferSelect;
