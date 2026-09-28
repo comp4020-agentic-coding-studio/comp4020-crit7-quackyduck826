@@ -15,6 +15,13 @@
       "when": 1790587472640,
       "tag": "0001_empty_scarlet_witch",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1790587983168,
+      "tag": "0002_freezing_songbird",
+      "breakpoints": true
     }
   ]
 }

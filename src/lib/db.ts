@@ -5,7 +5,7 @@ import { desc } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/better-sqlite3";
 import { migrate } from "drizzle-orm/better-sqlite3/migrator";
 import coursesSnapshot from "../../data/courses-2027-sem1.json";
-import { type Course, type CourseNote, type Message, courseNotes, courses, messages } from "./schema";
+import { type Course, type CourseNote, courseNotes, courses } from "./schema";
 
 // One SQLite file is the app's whole persistent state. In production
 // fly.toml points DATABASE_PATH at the machine's volume (/data), which is
@@ -43,15 +43,7 @@ db.transaction((tx) => {
   }
 });
 
-export type { Course, CourseNote, Message };
-
-export function listMessages(): Message[] {
-  return db.select().from(messages).orderBy(desc(messages.id)).limit(50).all();
-}
-
-export function addMessage(body: string): Message {
-  return db.insert(messages).values({ body }).returning().get();
-}
+export type { Course, CourseNote };
 
 export const coursesScrapedAt: string = coursesSnapshot.scrapedAt;
 
