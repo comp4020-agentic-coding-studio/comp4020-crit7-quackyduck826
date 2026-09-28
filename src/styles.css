@@ -7,7 +7,7 @@ body {
 }
 
 main {
-  max-width: 40rem;
+  max-width: 60rem;
   margin: 0 auto;
 }
 
@@ -35,6 +35,36 @@ button {
   font: inherit;
 }
 
-#messages {
-  padding-inline-start: 1.2rem;
+select {
+  font: inherit;
+  padding: 0.4rem 0.6rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-block: 1rem;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 0.4rem 0.6rem;
+  border-bottom: 1px solid #ddd;
+  vertical-align: top;
+}
+
+.status-group {
+  border-left: 0.3rem solid #999;
+  padding-inline-start: 1rem;
+  margin-block: 2rem;
+}
+
+.status-mismatch,
+.status-no_offerings {
+  border-left-color: #b3261e;
+}
+
+.status-confirmed {
+  border-left-color: #1e6b3c;
 }
