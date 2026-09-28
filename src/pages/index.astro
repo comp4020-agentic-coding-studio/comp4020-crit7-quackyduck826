@@ -1,6 +1,6 @@
 ---
 import Base from "../layouts/Base.astro";
-import { type Course, coursesScrapedAt, listCourses } from "../lib/db";
+import { type Course, coursesScrapedAt, listCourses, listLikedCourseCodes } from "../lib/db";
 
 const LEVELS = [1000, 2000, 3000, 4000, 6000, 8000] as const;
 const OFFERINGS = [
@@ -8,6 +8,26 @@ const OFFERINGS = [
   { value: "second_sem", label: "Second Semester" },
   { value: "no_offerings", label: "No current offerings" },
 ] as const;
+
+// ANU's own session names, abbreviated for a table cell that otherwise runs
+// wide — "Quarter 1/First Semester/Quarter 2/Quarter 3/Second Semester/
+// Quarter 4" becomes "Q1/Sem 1/Q2/Q3/Sem 2/Q4".
+const SESSION_ABBREVIATIONS: Record<string, string> = {
+  "First Semester": "Sem 1",
+  "Second Semester": "Sem 2",
+  "Quarter 1": "Q1",
+  "Quarter 2": "Q2",
+  "Quarter 3": "Q3",
+  "Quarter 4": "Q4",
+};
+
+function abbreviateSession(session: string): string {
+  if (!session) return "(not listed)";
+  return session
+    .split("/")
+    .map((part) => SESSION_ABBREVIATIONS[part.trim()] ?? part.trim())
+    .join("/");
+}
 
 function levelOf(course: Course): number {
   return Number(course.courseCode[4]) * 1000;
@@ -21,8 +41,10 @@ function offeringMatches(course: Course, offering: string): boolean {
 }
 
 const allCourses = listCourses();
+const likedCodes = listLikedCourseCodes();
 
 const q = (Astro.url.searchParams.get("q") ?? "").trim().toLowerCase();
+const likedFirst = Astro.url.searchParams.get("likedFirst") === "1";
 
 // On the very first visit there's no query string at all, and every box
 // should read as ticked (showing everything) rather than none — that's the
@@ -46,13 +68,20 @@ function matches(course: Course): boolean {
     q === "" || course.courseCode.toLowerCase().includes(q) || course.name.toLowerCase().includes(q);
   const matchesOffering = !formSubmitted || selectedOfferings.some((o) => offeringMatches(course, o));
   const level = levelOf(course);
-  const matchesLevel = !formSubmitted || !LEVELS.includes(level as (typeof LEVELS)[number]) || selectedLevels.includes(level);
+  const matchesLevel =
+    !formSubmitted || !LEVELS.includes(level as (typeof LEVELS)[number]) || selectedLevels.includes(level);
   return matchesQuery && matchesOffering && matchesLevel;
 }
 
 const filtered = allCourses.filter(matches);
+if (likedFirst) {
+  // Array.prototype.sort is stable, so courses within "liked" and within
+  // "not liked" keep their existing courseCode order.
+  filtered.sort((a, b) => Number(likedCodes.has(b.courseCode)) - Number(likedCodes.has(a.courseCode)));
+}
 
 const anuUrl = (code: string) => `https://programsandcourses.anu.edu.au/2027/course/${code.toLowerCase()}`;
+const returnTo = Astro.url.pathname + Astro.url.search;
 ---
 
 <Base title="COMP courses — 2027">
@@ -98,6 +127,11 @@ const anuUrl = (code: string) => `https://programsandcourses.anu.edu.au/2027/cou
       }
     </fieldset>
 
+    <label>
+      <input type="checkbox" name="likedFirst" value="1" checked={likedFirst} />
+      Show liked first
+    </label>
+
     <button>Filter</button>
   </form>
 
@@ -112,26 +146,41 @@ const anuUrl = (code: string) => `https://programsandcourses.anu.edu.au/2027/cou
         <th scope="col">Title</th>
         <th scope="col">First Sem class no.</th>
         <th scope="col">Second Sem class no.</th>
-        <th scope="col">ANU's claimed session</th>
+        <th scope="col">Running in</th>
+        <th scope="col">Liked</th>
         <th scope="col">Links</th>
       </tr>
     </thead>
     <tbody>
       {
-        filtered.map((course) => (
-          <tr class={course.hasAnyOffering ? "" : "no-offerings"}>
-            <td>{course.courseCode}</td>
-            <td>{course.name}</td>
-            <td>{course.firstSemClassNumber ?? "—"}</td>
-            <td>{course.secondSemClassNumber ?? "—"}</td>
-            <td>{course.catalogueSession || "(not listed)"}</td>
-            <td>
-              <a href={anuUrl(course.courseCode)}>ANU page</a>
-              {" · "}
-              <a href={`/notes/?course=${course.courseCode}`}>Add a note</a>
-            </td>
-          </tr>
-        ))
+        filtered.map((course) => {
+          const liked = likedCodes.has(course.courseCode);
+          return (
+            <tr class={course.hasAnyOffering ? "" : "no-offerings"}>
+              <td>{course.courseCode}</td>
+              <td>{course.name}</td>
+              <td>{course.firstSemClassNumber ?? "—"}</td>
+              <td>{course.secondSemClassNumber ?? "—"}</td>
+              <td>{abbreviateSession(course.catalogueSession)}</td>
+              <td>
+                <form method="post" action="/api/likes" class="like-form">
+                  <input type="hidden" name="courseCode" value={course.courseCode} />
+                  <input type="hidden" name="returnTo" value={returnTo} />
+                  <button
+                    type="submit"
+                    class="like-button"
+                    aria-label={liked ? `Unlike ${course.courseCode}` : `Like ${course.courseCode}`}
+                  >
+                    {liked ? "♥" : "♡"}
+                  </button>
+                </form>
+              </td>
+              <td>
+                <a href={anuUrl(course.courseCode)}>ANU page</a>
+              </td>
+            </tr>
+          );
+        })
       }
     </tbody>
   </table>

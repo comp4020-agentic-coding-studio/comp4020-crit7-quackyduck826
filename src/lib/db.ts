@@ -1,11 +1,11 @@
 import { mkdirSync } from "node:fs";
 import { dirname } from "node:path";
 import Database from "better-sqlite3";
-import { desc } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/better-sqlite3";
 import { migrate } from "drizzle-orm/better-sqlite3/migrator";
 import coursesSnapshot from "../../data/courses-2027-sem1.json";
-import { type Course, type CourseNote, courseNotes, courses } from "./schema";
+import { type Course, courses, likedCourses } from "./schema";
 
 // One SQLite file is the app's whole persistent state. In production
 // fly.toml points DATABASE_PATH at the machine's volume (/data), which is
@@ -32,7 +32,7 @@ migrate(db, { migrationsFolder: "./drizzle" });
 // environment — spec/global-setup.ts boots against a fresh throwaway DB per
 // run, and the Fly machine reboots this same server after every idle
 // auto-stop — with no network access, so the scrape itself can only ever run
-// offline, ahead of time. course_notes is real user data and is never
+// offline, ahead of time. liked_courses is real user data and is never
 // touched here.
 db.transaction((tx) => {
   tx.delete(courses).run();
@@ -43,7 +43,7 @@ db.transaction((tx) => {
   }
 });
 
-export type { Course, CourseNote };
+export type { Course };
 
 export const coursesScrapedAt: string = coursesSnapshot.scrapedAt;
 
@@ -51,10 +51,18 @@ export function listCourses(): Course[] {
   return db.select().from(courses).orderBy(courses.courseCode).all();
 }
 
-export function listNotes(): CourseNote[] {
-  return db.select().from(courseNotes).orderBy(desc(courseNotes.id)).limit(100).all();
+export function listLikedCourseCodes(): Set<string> {
+  return new Set(db.select({ courseCode: likedCourses.courseCode }).from(likedCourses).all().map((r) => r.courseCode));
 }
 
-export function addNote(courseCode: string, body: string): CourseNote {
-  return db.insert(courseNotes).values({ courseCode, body }).returning().get();
+// Toggles a like: if the course is already liked, unlikes it; otherwise
+// likes it. Returns whether it ends up liked.
+export function toggleLike(courseCode: string): boolean {
+  const existing = db.select().from(likedCourses).where(eq(likedCourses.courseCode, courseCode)).get();
+  if (existing) {
+    db.delete(likedCourses).where(eq(likedCourses.courseCode, courseCode)).run();
+    return false;
+  }
+  db.insert(likedCourses).values({ courseCode }).run();
+  return true;
 }

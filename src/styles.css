@@ -15,18 +15,17 @@ a {
   color: #0b5fff;
 }
 
-form {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  align-items: center;
-  margin-block: 1.5rem;
-}
-
 form.filters {
+  display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 0.75rem;
+  margin-block: 1.5rem;
+}
+
+form.like-form {
+  display: inline;
+  margin: 0;
 }
 
 .filter-row {
@@ -47,6 +46,15 @@ input:not([type="checkbox"]) {
 button {
   padding: 0.4rem 1rem;
   font: inherit;
+}
+
+.like-button {
+  padding: 0.1rem 0.4rem;
+  font-size: 1.2rem;
+  line-height: 1;
+  background: none;
+  border: none;
+  cursor: pointer;
 }
 
 fieldset {
@@ -88,8 +96,4 @@ td {
 
 tr.no-offerings {
   background: #fdecea;
-}
-
-#notes {
-  padding-inline-start: 1.2rem;
 }

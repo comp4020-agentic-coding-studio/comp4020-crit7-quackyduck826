@@ -30,16 +30,13 @@ export const courses = sqliteTable("courses", {
 });
 export type Course = typeof courses.$inferSelect;
 
-// Unlike courses, this is real user data — created by students browsing the
-// list, and expected to survive every reload, restart and redeploy. No FK to
-// courses.courseCode: courses gets wholesale-replaced on every boot, which
-// would fight a foreign key against notes that are meant to last.
-export const courseNotes = sqliteTable("course_notes", {
-  id: int().primaryKey({ autoIncrement: true }),
-  courseCode: text("course_code").notNull(),
-  body: text().notNull(),
-  createdAt: text("created_at")
+// Real user data — a toggle survives every reload, restart and redeploy. No
+// FK to courses.courseCode: courses gets wholesale-replaced on every boot,
+// which would fight a foreign key against likes that are meant to last.
+export const likedCourses = sqliteTable("liked_courses", {
+  courseCode: text("course_code").primaryKey(),
+  likedAt: text("liked_at")
     .notNull()
     .default(sql`(datetime('now'))`),
 });
-export type CourseNote = typeof courseNotes.$inferSelect;
+export type LikedCourse = typeof likedCourses.$inferSelect;

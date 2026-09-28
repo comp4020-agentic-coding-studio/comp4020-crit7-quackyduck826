@@ -36,6 +36,20 @@
       "when": 1790592140360,
       "tag": "0004_steady_risque",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "6",
+      "when": 1790593801891,
+      "tag": "0005_regular_firebird",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "6",
+      "when": 1790593835046,
+      "tag": "0006_busy_wolfpack",
+      "breakpoints": true
     }
   ]
 }

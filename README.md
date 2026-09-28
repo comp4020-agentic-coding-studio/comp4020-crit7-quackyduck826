@@ -13,10 +13,10 @@ running, and course level (1000/2000/3000/4000/6000/8000) — rather than
 pre-sorting courses into fixed groups, so a reader can slice the list however
 they're actually using it.
 
-A second, small feature sits alongside it: course notes. Anyone can flag
-something about a course — a class number that's since changed, a correction,
-a reminder for next year — and it's saved and shown to everyone, surviving a
-reload the way the list of courses itself deliberately doesn't (that list gets
+A second, small feature sits alongside it: courses are likeable. Tick the
+heart on any row to mark it, and the list can be sorted to show liked courses
+first — a shortlist that's saved and shared with everyone, surviving a reload
+the way the list of courses itself deliberately doesn't (that list gets
 replaced wholesale by the latest scrape on every boot).
 
 ## What good looks like here
@@ -37,8 +37,8 @@ judgement call, not a test: whether a flat, filterable table communicates the
 whether the course data is current — the scrape is a point-in-time snapshot,
 re-run by hand (`pnpm run scrape:courses`), not live.
 
-What I chose not to build: accounts or authentication (notes are anonymous,
-same as the starter's guestbook was), live cross-tab updates (a course list
-doesn't change second-to-second the way a chat does), and coverage beyond
-COMP-prefixed courses (scoped deliberately — the brief asks for a slice, not
-the whole system).
+What I chose not to build: accounts or authentication (likes are shared and
+anonymous, same as the starter's guestbook was), live cross-tab updates (a
+course list doesn't change second-to-second the way a chat does), and
+coverage beyond COMP-prefixed courses (scoped deliberately — the brief asks
+for a slice, not the whole system).

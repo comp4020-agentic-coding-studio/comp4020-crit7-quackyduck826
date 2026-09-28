@@ -39,13 +39,14 @@ describe("course list", () => {
     expect(html).toContain("programsandcourses.anu.edu.au/2027/course/");
   });
 
-  it("on first load, before the form is submitted, every checkbox is ticked", async () => {
+  it("on first load, before the form is submitted, every offering/level checkbox is ticked", async () => {
+    // "Show liked first" is a separate sort toggle, not part of this
+    // all-ticked-by-default guarantee, so it's excluded by name here.
     const res = await fetch(baseUrl);
     const html = await res.text();
-    const checkboxCount = (html.match(/type="checkbox"/g) ?? []).length;
-    const checkedCount = (html.match(/type="checkbox"[^>]*checked/g) ?? []).length;
-    expect(checkboxCount).toBeGreaterThan(0);
-    expect(checkedCount).toBe(checkboxCount);
+    const checkboxes = html.match(/<input type="checkbox" name="(?:offering|level)"[^>]*>/g) ?? [];
+    expect(checkboxes.length).toBeGreaterThan(0);
+    expect(checkboxes.every((tag) => tag.includes("checked"))).toBe(true);
   });
 
   it("filtering by offering shows only courses with a current offering that semester", async () => {
@@ -126,5 +127,25 @@ describe("course list", () => {
     const res = await fetch(filterUrl({ offerings: [] }));
     const html = await res.text();
     expect(html).toContain("Showing 0 of");
+  });
+
+  it("labels the session column 'Running in'", async () => {
+    const res = await fetch(baseUrl);
+    const html = await res.text();
+    expect(html).toContain("Running in");
+  });
+
+  it("abbreviates semester and quarter names in the session column", async () => {
+    const res = await fetch(baseUrl);
+    const html = await res.text();
+    // Scoped to the table body — the offering filter's own checkbox labels
+    // ("First Semester" etc.) are spelled out in full on purpose.
+    const rows = html.slice(html.indexOf("<tbody>"), html.indexOf("</tbody>"));
+    expect(rows).not.toContain("First Semester");
+    expect(rows).not.toContain("Second Semester");
+    expect(rows).not.toContain("Quarter 1");
+    // A course confirmed running First Semester and abbreviated as "Sem 1"
+    // actually appears — this isn't just "the words never show up".
+    expect(rows).toContain("Sem 1");
   });
 });

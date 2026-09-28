@@ -10,7 +10,7 @@ Rules for working on this repo:
 - Never scrape ANU's site from a request path (a page, an API route). The
   scraper runs offline, on demand, writing the committed JSON snapshot; the
   app itself only ever reads that file.
-- `course_notes` is real user data. Never wipe or migrate it destructively —
+- `liked_courses` is real user data. Never wipe or migrate it destructively —
   unlike `courses`, it isn't derived from anything and can't be regenerated.
 - Spec tests (`spec/*.test.ts`) assert what the served HTML/response
   contains, not implementation details, and check against the scraped
