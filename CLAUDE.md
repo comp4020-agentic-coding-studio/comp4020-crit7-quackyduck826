@@ -1,11 +1,21 @@
 # Your harness
 
-This file is yours, and it arrives empty on purpose. The rules you hold the
-agent to are part of what gets marked, so they should be rules you decided on.
+Rules for working on this repo:
 
-Nothing about the starter is recorded here. What the repo ships is explained
-where it lives --- `fly.toml`, the `Dockerfile`, the CI workflow and
-`spec/README.md` each say what they fix --- and the
-[course website](https://comp.anu.edu.au/courses/comp4020-agentic-coding-studio/)
-publishes this deliverable's brief and spec. Read them before you plan or build;
-what the agent needs to carry from any of it is your call.
+- `data/courses-2027-sem1.json` is the only source `src/lib/db.ts` reads to
+  populate the `courses` table, and it's only ever written by
+  `scripts/scrape-courses.ts`. Never hand-edit it or seed `courses` any other
+  way — the whole point is that every row traces back to a real fetch of the
+  course's own ANU page, not a guess.
+- Never scrape ANU's site from a request path (a page, an API route). The
+  scraper runs offline, on demand, writing the committed JSON snapshot; the
+  app itself only ever reads that file.
+- `course_notes` is real user data. Never wipe or migrate it destructively —
+  unlike `courses`, it isn't derived from anything and can't be regenerated.
+- Spec tests (`spec/*.test.ts`) assert what the served HTML/response
+  contains, not implementation details, and check against the scraped
+  snapshot's own data rather than hardcoding specific course codes, so a
+  future re-scrape doesn't break them.
+- Schema changes go through `src/lib/schema.ts` → `pnpm db:generate` → commit
+  both the code and the migration it writes under `drizzle/`, in that order,
+  in the same commit.
