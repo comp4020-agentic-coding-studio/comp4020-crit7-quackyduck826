@@ -84,16 +84,18 @@ const returnTo = (code: string) => `${Astro.url.pathname}${Astro.url.search}#${c
 ---
 
 <Base title="COMP courses — 2027">
-  <h1>COMP courses — 2027</h1>
-  <p>
-    ANU's own course search only tells you what's on offer one course page at
-    a time. This checked all {allCourses.length} COMP-prefixed courses' own
-    Offerings pages directly (scraped {coursesScrapedAt.slice(0, 10)}): {" "}
-    {allCourses.filter((c) => c.firstSemClassNumber).length} run First Semester,{" "}
-    {allCourses.filter((c) => c.secondSemClassNumber).length} run Second Semester, and{" "}
-    {allCourses.filter((c) => !c.hasAnyOffering).length} are listed as if active but have
-    zero current offerings at all.
-  </p>
+  <div class="page-intro">
+    <h1>COMP courses — 2027</h1>
+    <p>
+      ANU's own course search only tells you what's on offer one course page at
+      a time. This checked all {allCourses.length} COMP-prefixed courses' own
+      Offerings pages directly (scraped {coursesScrapedAt.slice(0, 10)}):{" "}
+      {allCourses.filter((c) => c.firstSemClassNumber).length} run First Semester,{" "}
+      {allCourses.filter((c) => c.secondSemClassNumber).length} run Second Semester, and{" "}
+      {allCourses.filter((c) => !c.hasAnyOffering).length} are listed as if active but have
+      zero current offerings at all.
+    </p>
+  </div>
 
   <form method="get" action="/" class="filters">
     <input type="hidden" name="submitted" value="1" />
@@ -102,7 +104,7 @@ const returnTo = (code: string) => `${Astro.url.pathname}${Astro.url.search}#${c
       <input id="q" name="q" type="search" value={q} placeholder="code or title" />
     </div>
 
-    <fieldset>
+    <fieldset class="pills">
       <legend>Offering (tick any)</legend>
       {
         OFFERINGS.map((o) => (
@@ -114,7 +116,7 @@ const returnTo = (code: string) => `${Astro.url.pathname}${Astro.url.search}#${c
       }
     </fieldset>
 
-    <fieldset>
+    <fieldset class="pills">
       <legend>Level (tick any)</legend>
       {
         LEVELS.map((lvl) => (
@@ -126,61 +128,67 @@ const returnTo = (code: string) => `${Astro.url.pathname}${Astro.url.search}#${c
       }
     </fieldset>
 
-    <label>
-      <input type="checkbox" name="likedFirst" value="1" checked={likedFirst} />
-      Show liked first
-    </label>
-
-    <button>Filter</button>
+    <div class="filter-row">
+      <label class="liked-first-toggle">
+        <input type="checkbox" name="likedFirst" value="1" checked={likedFirst} />
+        Show liked first
+      </label>
+      <button class="filter-submit">Filter</button>
+    </div>
   </form>
 
-  <p>
-    Showing {filtered.length} of {allCourses.length} courses.
+  <p class="stat-pill">
+    Showing <strong>{filtered.length}</strong> of <strong>{allCourses.length}</strong> courses
   </p>
 
-  <table>
-    <thead>
-      <tr>
-        <th scope="col">Code</th>
-        <th scope="col">Title</th>
-        <th scope="col">First Sem class no.</th>
-        <th scope="col">Second Sem class no.</th>
-        <th scope="col">Running in</th>
-        <th scope="col">Liked</th>
-        <th scope="col">Links</th>
-      </tr>
-    </thead>
-    <tbody>
-      {
-        filtered.map((course) => {
-          const liked = likedCodes.has(course.courseCode);
-          return (
-            <tr id={course.courseCode} class={course.hasAnyOffering ? "" : "no-offerings"}>
-              <td>{course.courseCode}</td>
-              <td>{course.name}</td>
-              <td>{course.firstSemClassNumber ?? "—"}</td>
-              <td>{course.secondSemClassNumber ?? "—"}</td>
-              <td>{abbreviateSession(course.catalogueSession)}</td>
-              <td>
-                <form method="post" action="/api/likes" class="like-form">
-                  <input type="hidden" name="courseCode" value={course.courseCode} />
-                  <input type="hidden" name="returnTo" value={returnTo(course.courseCode)} />
-                  <button
-                    type="submit"
-                    class="like-button"
-                    aria-label={liked ? `Unlike ${course.courseCode}` : `Like ${course.courseCode}`}
-                  >
-                    {liked ? "♥" : "♡"}
-                  </button>
-                </form>
-              </td>
-              <td>
-                <a href={anuUrl(course.courseCode)}>ANU page</a>
-              </td>
-            </tr>
-          );
-        })
-      }
-    </tbody>
-  </table>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">Code</th>
+          <th scope="col">Title</th>
+          <th scope="col">First Sem class no.</th>
+          <th scope="col">Second Sem class no.</th>
+          <th scope="col">Running in</th>
+          <th scope="col">Liked</th>
+          <th scope="col">Links</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          filtered.map((course) => {
+            const liked = likedCodes.has(course.courseCode);
+            return (
+              <tr id={course.courseCode} class={course.hasAnyOffering ? "" : "no-offerings"}>
+                <td class="code-cell">{course.courseCode}</td>
+                <td>{course.name}</td>
+                <td>{course.firstSemClassNumber ?? "—"}</td>
+                <td>{course.secondSemClassNumber ?? "—"}</td>
+                <td>
+                  {abbreviateSession(course.catalogueSession)}
+                  {!course.hasAnyOffering && <span class="badge">no offerings</span>}
+                </td>
+                <td>
+                  <form method="post" action="/api/likes" class="like-form">
+                    <input type="hidden" name="courseCode" value={course.courseCode} />
+                    <input type="hidden" name="returnTo" value={returnTo(course.courseCode)} />
+                    <button
+                      type="submit"
+                      class="like-button"
+                      aria-label={liked ? `Unlike ${course.courseCode}` : `Like ${course.courseCode}`}
+                    >
+                      {liked ? "♥" : "♡"}
+                    </button>
+                  </form>
+                </td>
+                <td>
+                  <a href={anuUrl(course.courseCode)}>ANU page</a>
+                </td>
+              </tr>
+            );
+          })
+        }
+      </tbody>
+    </table>
+  </div>
 </Base>

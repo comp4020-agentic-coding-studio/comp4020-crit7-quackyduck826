@@ -121,7 +121,7 @@ describe("course list", () => {
   it("submitting with every box in a group unticked shows nothing from that group", async () => {
     const res = await fetch(filterUrl({ offerings: [] }));
     const html = await res.text();
-    expect(html).toContain("Showing 0 of");
+    expect(html).toMatch(/Showing <strong>0<\/strong> of/);
   });
 
   it("labels the session column 'Running in'", async () => {
