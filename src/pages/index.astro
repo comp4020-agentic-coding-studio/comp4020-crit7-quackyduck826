@@ -81,7 +81,10 @@ if (likedFirst) {
 }
 
 const anuUrl = (code: string) => `https://programsandcourses.anu.edu.au/2027/course/${code.toLowerCase()}`;
-const returnTo = Astro.url.pathname + Astro.url.search;
+// Liking a row is a plain form POST + redirect (no JS) — a full page
+// navigation, which defaults to scrolling to the top. Pointing the redirect
+// at the row's own anchor keeps you where you were instead.
+const returnTo = (code: string) => `${Astro.url.pathname}${Astro.url.search}#${code}`;
 ---
 
 <Base title="COMP courses — 2027">
@@ -156,7 +159,7 @@ const returnTo = Astro.url.pathname + Astro.url.search;
         filtered.map((course) => {
           const liked = likedCodes.has(course.courseCode);
           return (
-            <tr class={course.hasAnyOffering ? "" : "no-offerings"}>
+            <tr id={course.courseCode} class={course.hasAnyOffering ? "" : "no-offerings"}>
               <td>{course.courseCode}</td>
               <td>{course.name}</td>
               <td>{course.firstSemClassNumber ?? "—"}</td>
@@ -165,7 +168,7 @@ const returnTo = Astro.url.pathname + Astro.url.search;
               <td>
                 <form method="post" action="/api/likes" class="like-form">
                   <input type="hidden" name="courseCode" value={course.courseCode} />
-                  <input type="hidden" name="returnTo" value={returnTo} />
+                  <input type="hidden" name="returnTo" value={returnTo(course.courseCode)} />
                   <button
                     type="submit"
                     class="like-button"
