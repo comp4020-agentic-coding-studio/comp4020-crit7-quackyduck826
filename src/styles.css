@@ -68,3 +68,7 @@ td {
 .status-confirmed {
   border-left-color: #1e6b3c;
 }
+
+#notes {
+  padding-inline-start: 1.2rem;
+}
