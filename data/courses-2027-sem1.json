@@ -1,0 +1,1029 @@
+{
+  "scrapedAt": "2026-09-28T09:23:31.812Z",
+  "courses": [
+    {
+      "courseCode": "COMP1110",
+      "name": "Structured Programming",
+      "catalogueSession": "First Semester/Second Semester",
+      "catalogueClaimsS1": true,
+      "classNumber": "5110",
+      "status": "confirmed"
+    },
+    {
+      "courseCode": "COMP1130",
+      "name": "Programming as Problem Solving (Advanced)",
+      "catalogueSession": "First Semester",
+      "catalogueClaimsS1": true,
+      "classNumber": "5100",
+      "status": "confirmed"
+    },
+    {
+      "courseCode": "COMP1720",
+      "name": "Art and Interaction Computing",
+      "catalogueSession": "",
+      "catalogueClaimsS1": false,
+      "classNumber": null,
+      "status": "no_offerings"
+    },
+    {
+      "courseCode": "COMP1730",
+      "name": "Programming for Scientists",
+      "catalogueSession": "First Semester/Second Semester",
+      "catalogueClaimsS1": true,
+      "classNumber": "5398",
+      "status": "confirmed"
+    },
+    {
+      "courseCode": "COMP2100",
+      "name": "Software Construction",
+      "catalogueSession": "First Semester/Second Semester",
+      "catalogueClaimsS1": true,
+      "classNumber": "5103",
+      "status": "confirmed"
+    },
+    {
+      "courseCode": "COMP2300",
+      "name": "Computer Architecture",
+      "catalogueSession": "First Semester",
+      "catalogueClaimsS1": true,
+      "classNumber": "5055",
+      "status": "confirmed"
+    },
+    {
+      "courseCode": "COMP2310",
+      "name": "Systems, Networks, and Concurrency",
+      "catalogueSession": "Second Semester",
+      "catalogueClaimsS1": false,
+      "classNumber": null,
+      "status": "other_semester"
+    },
+    {
+      "courseCode": "COMP2610",
+      "name": "Information Theory",
+      "catalogueSession": "Second Semester",
+      "catalogueClaimsS1": false,
+      "classNumber": null,
+      "status": "other_semester"
+    },
+    {
+      "courseCode": "COMP3610",
+      "name": "Principles of Programming Languages",
+      "catalogueSession": "Second Semester",
+      "catalogueClaimsS1": false,
+      "classNumber": null,
+      "status": "other_semester"
+    },
+    {
+      "courseCode": "COMP3620",
+      "name": "Artificial Intelligence",
+      "catalogueSession": "First Semester",
+      "catalogueClaimsS1": true,
+      "classNumber": "5052",
+      "status": "confirmed"
+    },
+    {
+      "courseCode": "COMP3630",
+      "name": "Theory of Computation",
+      "catalogueSession": "First Semester",
+      "catalogueClaimsS1": true,
+      "classNumber": "5111",
+      "status": "confirmed"
+    },
+    {
+      "courseCode": "COMP3820",
+      "name": "Computing Internship",
+      "catalogueSession": "",
+      "catalogueClaimsS1": false,
+      "classNumber": null,
+      "status": "no_offerings"
+    },
+    {
+      "courseCode": "COMP3900",
+      "name": "Human-Computer Interaction",
+      "catalogueSession": "Second Semester",
+      "catalogueClaimsS1": false,
+      "classNumber": null,
+      "status": "other_semester"
+    },
+    {
+      "courseCode": "COMP4020",
+      "name": "Advanced Topics in Human-Centred and Creative Computing",
+      "catalogueSession": "Second Semester",
+      "catalogueClaimsS1": false,
+      "classNumber": null,
+      "status": "other_semester"
+    },
+    {
+      "courseCode": "COMP4045",
+      "name": "Advanced Topics in Computer Systems",
+      "catalogueSession": "First Semester",
+      "catalogueClaimsS1": true,
+      "classNumber": "5496",
+      "status": "confirmed"
+    },
+    {
+      "courseCode": "COMP4130",
+      "name": "Managing Software Quality and Process",
+      "catalogueSession": "First Semester",
+      "catalogueClaimsS1": true,
+      "classNumber": "5093",
+      "status": "confirmed"
+    },
+    {
+      "courseCode": "COMP4300",
+      "name": "Parallel Systems",
+      "catalogueSession": "First Semester",
+      "catalogueClaimsS1": true,
+      "classNumber": "5095",
+      "status": "confirmed"
+    },
+    {
+      "courseCode": "COMP4528",
+      "name": "Computer Vision",
+      "catalogueSession": "First Semester",
+      "catalogueClaimsS1": true,
+      "classNumber": "5064",
+      "status": "confirmed"
+    },
+    {
+      "courseCode": "COMP4550",
+      "name": "Computing Research Project",
+      "catalogueSession": "First Semester/Second Semester",
+      "catalogueClaimsS1": true,
+      "classNumber": "5083",
+      "status": "confirmed"
+    },
+    {
+      "courseCode": "COMP4600",
+      "name": "Advanced Algorithms",
+      "catalogueSession": "",
+      "catalogueClaimsS1": false,
+      "classNumber": null,
+      "status": "no_offerings"
+    },
+    {
+      "courseCode": "COMP4620",
+      "name": "Advanced Topics in Artificial Intelligence",
+      "catalogueSession": "Second Semester",
+      "catalogueClaimsS1": false,
+      "classNumber": null,
+      "status": "other_semester"
+    },
+    {
+      "courseCode": "COMP4691",
+      "name": "Optimisation",
+      "catalogueSession": "",
+      "catalogueClaimsS1": false,
+      "classNumber": null,
+      "status": "no_offerings"
+    },
+    {
+      "courseCode": "COMP4712",
+      "name": "Compiler Construction",
+      "catalogueSession": "",
+      "catalogueClaimsS1": false,
+      "classNumber": null,
+      "status": "no_offerings"
+    },
+    {
+      "courseCode": "COMP4880",
+      "name": "Computational Methods for Network Science",
+      "catalogueSession": "",
+      "catalogueClaimsS1": false,
+      "classNumber": null,
+      "status": "no_offerings"
+    },
+    {
+      "courseCode": "COMP6034",
+      "name": "Network Security",
+      "catalogueSession": "Second Semester",
+      "catalogueClaimsS1": false,
+      "classNumber": null,
+      "status": "other_semester"
+    },
+    {
+      "courseCode": "COMP6250",
+      "name": "Professional Practice: Holistic Thinking and Communication",
+      "catalogueSession": "",
+      "catalogueClaimsS1": false,
+      "classNumber": null,
+      "status": "no_offerings"
+    },
+    {
+      "courseCode": "COMP6262",
+      "name": "Logic",
+      "catalogueSession": "First Semester",
+      "catalogueClaimsS1": true,
+      "classNumber": "5092",
+      "status": "confirmed"
+    },
+    {
+      "courseCode": "COMP6300",
+      "name": "Computer Architecture",
+      "catalogueSession": "First Semester",
+      "catalogueClaimsS1": true,
+      "classNumber": "5056",
+      "status": "confirmed"
+    },
+    {
+      "courseCode": "COMP6310",
+      "name": "Systems, Networks and Concurrency",
+      "catalogueSession": "Second Semester",
+      "catalogueClaimsS1": false,
+      "classNumber": null,
+      "status": "other_semester"
+    },
+    {
+      "courseCode": "COMP6331",
+      "name": "Computer Networks",
+      "catalogueSession": "First Semester",
+      "catalogueClaimsS1": true,
+      "classNumber": "5061",
+      "status": "confirmed"
+    },
+    {
+      "courseCode": "COMP6361",
+      "name": "Principles of Programming Languages",
+      "catalogueSession": "Second Semester",
+      "catalogueClaimsS1": false,
+      "classNumber": null,
+      "status": "other_semester"
+    },
+    {
+      "courseCode": "COMP6464",
+      "name": "High Performance Scientific Computing",
+      "catalogueSession": "Second Semester",
+      "catalogueClaimsS1": false,
+      "classNumber": null,
+      "status": "other_semester"
+    },
+    {
+      "courseCode": "COMP6528",
+      "name": "Computer Vision",
+      "catalogueSession": "First Semester",
+      "catalogueClaimsS1": true,
+      "classNumber": "5066",
+      "status": "confirmed"
+    },
+    {
+      "courseCode": "COMP6710",
+      "name": "Structured Programming",
+      "catalogueSession": "First Semester/Second Semester",
+      "catalogueClaimsS1": true,
+      "classNumber": "5400",
+      "status": "confirmed"
+    },
+    {
+      "courseCode": "COMP6720",
+      "name": "Art and Interaction Computing",
+      "catalogueSession": "",
+      "catalogueClaimsS1": false,
+      "classNumber": null,
+      "status": "no_offerings"
+    },
+    {
+      "courseCode": "COMP6730",
+      "name": "Programming for Scientists",
+      "catalogueSession": "First Semester/Second Semester",
+      "catalogueClaimsS1": true,
+      "classNumber": "5399",
+      "status": "confirmed"
+    },
+    {
+      "courseCode": "COMP6780",
+      "name": "Web Development and Design",
+      "catalogueSession": "",
+      "catalogueClaimsS1": false,
+      "classNumber": null,
+      "status": "no_offerings"
+    },
+    {
+      "courseCode": "COMP6800",
+      "name": "Cyber Security Foundations",
+      "catalogueSession": "First Semester",
+      "catalogueClaimsS1": true,
+      "classNumber": "5086",
+      "status": "confirmed"
+    },
+    {
+      "courseCode": "COMP8011",
+      "name": "Advanced Topics in Formal Methods and Programming Languages",
+      "catalogueSession": "Second Semester",
+      "catalogueClaimsS1": false,
+      "classNumber": null,
+      "status": "other_semester"
+    },
+    {
+      "courseCode": "COMP8350",
+      "name": "Sound and Music Computing",
+      "catalogueSession": "First Semester",
+      "catalogueClaimsS1": true,
+      "classNumber": "5108",
+      "status": "confirmed"
+    },
+    {
+      "courseCode": "COMP8410",
+      "name": "Data Mining",
+      "catalogueSession": "First Semester",
+      "catalogueClaimsS1": true,
+      "classNumber": "5401",
+      "status": "confirmed"
+    },
+    {
+      "courseCode": "COMP8430",
+      "name": "Data Wrangling",
+      "catalogueSession": "",
+      "catalogueClaimsS1": false,
+      "classNumber": null,
+      "status": "no_offerings"
+    },
+    {
+      "courseCode": "COMP8460",
+      "name": "Advanced Algorithms",
+      "catalogueSession": "",
+      "catalogueClaimsS1": false,
+      "classNumber": null,
+      "status": "no_offerings"
+    },
+    {
+      "courseCode": "COMP8500",
+      "name": "Advanced Computing Team Project",
+      "catalogueSession": "",
+      "catalogueClaimsS1": false,
+      "classNumber": null,
+      "status": "no_offerings"
+    },
+    {
+      "courseCode": "COMP8535",
+      "name": "Engineering Data Analytics",
+      "catalogueSession": "First Semester",
+      "catalogueClaimsS1": true,
+      "classNumber": "5146",
+      "status": "confirmed"
+    },
+    {
+      "courseCode": "COMP8536",
+      "name": "Advanced Topics in Deep Learning for Computer Vision",
+      "catalogueSession": "",
+      "catalogueClaimsS1": false,
+      "classNumber": null,
+      "status": "no_offerings"
+    },
+    {
+      "courseCode": "COMP8539",
+      "name": "Advanced Topics in Computer Vision",
+      "catalogueSession": "Second Semester",
+      "catalogueClaimsS1": false,
+      "classNumber": null,
+      "status": "other_semester"
+    },
+    {
+      "courseCode": "COMP8712",
+      "name": "Compiler Construction",
+      "catalogueSession": "",
+      "catalogueClaimsS1": false,
+      "classNumber": null,
+      "status": "no_offerings"
+    },
+    {
+      "courseCode": "COMP8800",
+      "name": "Advanced Computing Research Project",
+      "catalogueSession": "First Semester/Second Semester",
+      "catalogueClaimsS1": true,
+      "classNumber": "5048",
+      "status": "confirmed"
+    },
+    {
+      "courseCode": "COMP8880",
+      "name": "Computational Methods for Network Science",
+      "catalogueSession": "",
+      "catalogueClaimsS1": false,
+      "classNumber": null,
+      "status": "no_offerings"
+    },
+    {
+      "courseCode": "COMP8980",
+      "name": "Computational Methods for Network Science",
+      "catalogueSession": "",
+      "catalogueClaimsS1": false,
+      "classNumber": null,
+      "status": "no_offerings"
+    },
+    {
+      "courseCode": "COMP8999",
+      "name": "School of Computing Higher Degree by Research Internship",
+      "catalogueSession": "",
+      "catalogueClaimsS1": false,
+      "classNumber": null,
+      "status": "no_offerings"
+    },
+    {
+      "courseCode": "COMP9001F",
+      "name": "PhD Research (RSCS)",
+      "catalogueSession": "Quarter 1/First Semester/Quarter 2/Quarter 3/Second Semester/Quarter 4",
+      "catalogueClaimsS1": true,
+      "classNumber": "4371",
+      "status": "confirmed"
+    },
+    {
+      "courseCode": "COMP1100",
+      "name": "Programming as Problem Solving",
+      "catalogueSession": "First Semester/Second Semester",
+      "catalogueClaimsS1": true,
+      "classNumber": "5099",
+      "status": "confirmed"
+    },
+    {
+      "courseCode": "COMP1140",
+      "name": "Structured Programming (Advanced)",
+      "catalogueSession": "Second Semester",
+      "catalogueClaimsS1": false,
+      "classNumber": null,
+      "status": "other_semester"
+    },
+    {
+      "courseCode": "COMP2400",
+      "name": "Relational Databases",
+      "catalogueSession": "First Semester/Second Semester",
+      "catalogueClaimsS1": true,
+      "classNumber": "5101",
+      "status": "confirmed"
+    },
+    {
+      "courseCode": "COMP2550",
+      "name": "Computing R&D Methods",
+      "catalogueSession": "First Semester",
+      "catalogueClaimsS1": true,
+      "classNumber": "5068",
+      "status": "confirmed"
+    },
+    {
+      "courseCode": "COMP2700",
+      "name": "Cyber Security Foundations",
+      "catalogueSession": "First Semester",
+      "catalogueClaimsS1": true,
+      "classNumber": "5085",
+      "status": "confirmed"
+    },
+    {
+      "courseCode": "COMP2710",
+      "name": "Special Topics in Computer Science",
+      "catalogueSession": "",
+      "catalogueClaimsS1": false,
+      "classNumber": null,
+      "status": "no_offerings"
+    },
+    {
+      "courseCode": "COMP3300",
+      "name": "Operating Systems Implementation",
+      "catalogueSession": "Second Semester",
+      "catalogueClaimsS1": false,
+      "classNumber": null,
+      "status": "other_semester"
+    },
+    {
+      "courseCode": "COMP3310",
+      "name": "Computer Networks",
+      "catalogueSession": "First Semester",
+      "catalogueClaimsS1": true,
+      "classNumber": "5059",
+      "status": "confirmed"
+    },
+    {
+      "courseCode": "COMP3320",
+      "name": "High Performance Scientific Computation",
+      "catalogueSession": "Second Semester",
+      "catalogueClaimsS1": false,
+      "classNumber": null,
+      "status": "other_semester"
+    },
+    {
+      "courseCode": "COMP3425",
+      "name": "Data Mining",
+      "catalogueSession": "",
+      "catalogueClaimsS1": false,
+      "classNumber": null,
+      "status": "no_offerings"
+    },
+    {
+      "courseCode": "COMP3500",
+      "name": "Software Engineering Project",
+      "catalogueSession": "First Semester/Second Semester",
+      "catalogueClaimsS1": true,
+      "classNumber": "5105",
+      "status": "confirmed"
+    },
+    {
+      "courseCode": "COMP3600",
+      "name": "Algorithms",
+      "catalogueSession": "Second Semester",
+      "catalogueClaimsS1": false,
+      "classNumber": null,
+      "status": "other_semester"
+    },
+    {
+      "courseCode": "COMP3703",
+      "name": "Software Security",
+      "catalogueSession": "",
+      "catalogueClaimsS1": false,
+      "classNumber": null,
+      "status": "no_offerings"
+    },
+    {
+      "courseCode": "COMP3704",
+      "name": "Network Security",
+      "catalogueSession": "Second Semester",
+      "catalogueClaimsS1": false,
+      "classNumber": null,
+      "status": "other_semester"
+    },
+    {
+      "courseCode": "COMP3710",
+      "name": "Topics in Computer Science",
+      "catalogueSession": "",
+      "catalogueClaimsS1": false,
+      "classNumber": null,
+      "status": "no_offerings"
+    },
+    {
+      "courseCode": "COMP3740",
+      "name": "Individual Project",
+      "catalogueSession": "First Semester/Second Semester",
+      "catalogueClaimsS1": true,
+      "classNumber": "5090",
+      "status": "confirmed"
+    },
+    {
+      "courseCode": "COMP3770",
+      "name": "Computing Research Project (R&D)",
+      "catalogueSession": "First Semester/Second Semester",
+      "catalogueClaimsS1": true,
+      "classNumber": "5084",
+      "status": "confirmed"
+    },
+    {
+      "courseCode": "COMP4011",
+      "name": "Advanced Topics in Formal Methods and Programming Languages",
+      "catalogueSession": "Second Semester",
+      "catalogueClaimsS1": false,
+      "classNumber": null,
+      "status": "other_semester"
+    },
+    {
+      "courseCode": "COMP4350",
+      "name": "Sound and Music Computing",
+      "catalogueSession": "First Semester",
+      "catalogueClaimsS1": true,
+      "classNumber": "5107",
+      "status": "confirmed"
+    },
+    {
+      "courseCode": "COMP4450",
+      "name": "Computing Research Methods",
+      "catalogueSession": "First Semester",
+      "catalogueClaimsS1": true,
+      "classNumber": "5069",
+      "status": "confirmed"
+    },
+    {
+      "courseCode": "COMP4500",
+      "name": "Software Engineering Team Project",
+      "catalogueSession": "First Semester/Second Semester",
+      "catalogueClaimsS1": true,
+      "classNumber": "5106",
+      "status": "confirmed"
+    },
+    {
+      "courseCode": "COMP4610",
+      "name": "Computer Graphics",
+      "catalogueSession": "First Semester",
+      "catalogueClaimsS1": true,
+      "classNumber": "5057",
+      "status": "confirmed"
+    },
+    {
+      "courseCode": "COMP4680",
+      "name": "Advanced Topics in Machine Learning",
+      "catalogueSession": "First Semester",
+      "catalogueClaimsS1": true,
+      "classNumber": "5050",
+      "status": "confirmed"
+    },
+    {
+      "courseCode": "COMP4703",
+      "name": "Vulnerability Research and Exploit Mitigation",
+      "catalogueSession": "First Semester",
+      "catalogueClaimsS1": true,
+      "classNumber": "5112",
+      "status": "confirmed"
+    },
+    {
+      "courseCode": "COMP4820",
+      "name": "Advanced Computing Internship",
+      "catalogueSession": "First Semester/Second Semester",
+      "catalogueClaimsS1": true,
+      "classNumber": "5047",
+      "status": "confirmed"
+    },
+    {
+      "courseCode": "COMP5920",
+      "name": "Exchange Program in Computer Science",
+      "catalogueSession": "First Semester/Second Semester",
+      "catalogueClaimsS1": true,
+      "classNumber": "4947",
+      "status": "confirmed"
+    },
+    {
+      "courseCode": "COMP6240",
+      "name": "Relational Databases",
+      "catalogueSession": "First Semester/Second Semester",
+      "catalogueClaimsS1": true,
+      "classNumber": "5102",
+      "status": "confirmed"
+    },
+    {
+      "courseCode": "COMP6260",
+      "name": "Foundations of Computing",
+      "catalogueSession": "Second Semester",
+      "catalogueClaimsS1": false,
+      "classNumber": null,
+      "status": "other_semester"
+    },
+    {
+      "courseCode": "COMP6330",
+      "name": "Operating Systems Implementation",
+      "catalogueSession": "Second Semester",
+      "catalogueClaimsS1": false,
+      "classNumber": null,
+      "status": "other_semester"
+    },
+    {
+      "courseCode": "COMP6363",
+      "name": "Theory of Computation",
+      "catalogueSession": "First Semester",
+      "catalogueClaimsS1": true,
+      "classNumber": "5421",
+      "status": "confirmed"
+    },
+    {
+      "courseCode": "COMP6390",
+      "name": "Human-Computer Interaction",
+      "catalogueSession": "Second Semester",
+      "catalogueClaimsS1": false,
+      "classNumber": null,
+      "status": "other_semester"
+    },
+    {
+      "courseCode": "COMP6466",
+      "name": "Algorithms",
+      "catalogueSession": "Second Semester",
+      "catalogueClaimsS1": false,
+      "classNumber": null,
+      "status": "other_semester"
+    },
+    {
+      "courseCode": "COMP6470",
+      "name": "Special Topics in Computing",
+      "catalogueSession": "",
+      "catalogueClaimsS1": false,
+      "classNumber": null,
+      "status": "no_offerings"
+    },
+    {
+      "courseCode": "COMP6490",
+      "name": "Document Analysis",
+      "catalogueSession": "",
+      "catalogueClaimsS1": false,
+      "classNumber": null,
+      "status": "no_offerings"
+    },
+    {
+      "courseCode": "COMP6670",
+      "name": "Introduction to Machine Learning",
+      "catalogueSession": "Second Semester",
+      "catalogueClaimsS1": false,
+      "classNumber": null,
+      "status": "other_semester"
+    },
+    {
+      "courseCode": "COMP8020",
+      "name": "Advanced Topics in Human-Centred and Creative Computing",
+      "catalogueSession": "Second Semester",
+      "catalogueClaimsS1": false,
+      "classNumber": null,
+      "status": "other_semester"
+    },
+    {
+      "courseCode": "COMP8045",
+      "name": "Advanced Topics in Computer Systems & Architecture",
+      "catalogueSession": "First Semester",
+      "catalogueClaimsS1": true,
+      "classNumber": "5497",
+      "status": "confirmed"
+    },
+    {
+      "courseCode": "COMP8131",
+      "name": "Managing Software Quality and Process",
+      "catalogueSession": "First Semester",
+      "catalogueClaimsS1": true,
+      "classNumber": "5094",
+      "status": "confirmed"
+    },
+    {
+      "courseCode": "COMP8260",
+      "name": "Professional Practice: Responsible Innovation and Leadership",
+      "catalogueSession": "",
+      "catalogueClaimsS1": false,
+      "classNumber": null,
+      "status": "no_offerings"
+    },
+    {
+      "courseCode": "COMP8300",
+      "name": "Parallel Systems",
+      "catalogueSession": "First Semester",
+      "catalogueClaimsS1": true,
+      "classNumber": "5096",
+      "status": "confirmed"
+    },
+    {
+      "courseCode": "COMP8490",
+      "name": "Document Analysis",
+      "catalogueSession": "Second Semester",
+      "catalogueClaimsS1": false,
+      "classNumber": null,
+      "status": "other_semester"
+    },
+    {
+      "courseCode": "COMP8610",
+      "name": "Computer Graphics",
+      "catalogueSession": "First Semester",
+      "catalogueClaimsS1": true,
+      "classNumber": "5058",
+      "status": "confirmed"
+    },
+    {
+      "courseCode": "COMP8620",
+      "name": "Advanced Topics in Artificial intelligence",
+      "catalogueSession": "Second Semester",
+      "catalogueClaimsS1": false,
+      "classNumber": null,
+      "status": "other_semester"
+    },
+    {
+      "courseCode": "COMP8650",
+      "name": "Advanced Topics in Machine Learning",
+      "catalogueSession": "First Semester",
+      "catalogueClaimsS1": true,
+      "classNumber": "5051",
+      "status": "confirmed"
+    },
+    {
+      "courseCode": "COMP8691",
+      "name": "Optimisation",
+      "catalogueSession": "",
+      "catalogueClaimsS1": false,
+      "classNumber": null,
+      "status": "no_offerings"
+    },
+    {
+      "courseCode": "COMP8830",
+      "name": "Computing Internship",
+      "catalogueSession": "First Semester/Second Semester",
+      "catalogueClaimsS1": true,
+      "classNumber": "5067",
+      "status": "confirmed"
+    },
+    {
+      "courseCode": "COMP8900P",
+      "name": "Master of Philosophy (Computer Science)",
+      "catalogueSession": "Quarter 1/First Semester/Quarter 2/Quarter 3/Second Semester/Quarter 4",
+      "catalogueClaimsS1": true,
+      "classNumber": "3642",
+      "status": "confirmed"
+    },
+    {
+      "courseCode": "COMP8901F",
+      "name": "MPhil Research (RSCS)",
+      "catalogueSession": "Quarter 1/First Semester/Quarter 2/Quarter 3/Second Semester/Quarter 4",
+      "catalogueClaimsS1": true,
+      "classNumber": "4369",
+      "status": "confirmed"
+    },
+    {
+      "courseCode": "COMP9000P",
+      "name": "Doctor of Philosophy (Computer Science)",
+      "catalogueSession": "Quarter 1/First Semester/Quarter 2/Quarter 3/Second Semester/Quarter 4",
+      "catalogueClaimsS1": true,
+      "classNumber": "3756",
+      "status": "confirmed"
+    },
+    {
+      "courseCode": "COMP1600",
+      "name": "Foundations of Computing",
+      "catalogueSession": "Second Semester",
+      "catalogueClaimsS1": false,
+      "classNumber": null,
+      "status": "other_semester"
+    },
+    {
+      "courseCode": "COMP2120",
+      "name": "Software Engineering",
+      "catalogueSession": "Second Semester",
+      "catalogueClaimsS1": false,
+      "classNumber": null,
+      "status": "other_semester"
+    },
+    {
+      "courseCode": "COMP2620",
+      "name": "Logic",
+      "catalogueSession": "First Semester",
+      "catalogueClaimsS1": true,
+      "classNumber": "5091",
+      "status": "confirmed"
+    },
+    {
+      "courseCode": "COMP3242",
+      "name": "Deep Learning",
+      "catalogueSession": "First Semester",
+      "catalogueClaimsS1": true,
+      "classNumber": "5088",
+      "status": "confirmed"
+    },
+    {
+      "courseCode": "COMP3430",
+      "name": "Data Wrangling",
+      "catalogueSession": "Second Semester",
+      "catalogueClaimsS1": false,
+      "classNumber": null,
+      "status": "other_semester"
+    },
+    {
+      "courseCode": "COMP3540",
+      "name": "Game Development",
+      "catalogueSession": "",
+      "catalogueClaimsS1": false,
+      "classNumber": null,
+      "status": "no_offerings"
+    },
+    {
+      "courseCode": "COMP3670",
+      "name": "Introduction to Machine Learning",
+      "catalogueSession": "Second Semester",
+      "catalogueClaimsS1": false,
+      "classNumber": null,
+      "status": "other_semester"
+    },
+    {
+      "courseCode": "COMP4425",
+      "name": "Data Mining",
+      "catalogueSession": "First Semester",
+      "catalogueClaimsS1": true,
+      "classNumber": "5087",
+      "status": "confirmed"
+    },
+    {
+      "courseCode": "COMP4650",
+      "name": "Document Analysis",
+      "catalogueSession": "Second Semester",
+      "catalogueClaimsS1": false,
+      "classNumber": null,
+      "status": "other_semester"
+    },
+    {
+      "courseCode": "COMP4670",
+      "name": "Statistical Machine Learning",
+      "catalogueSession": "First Semester",
+      "catalogueClaimsS1": true,
+      "classNumber": "5109",
+      "status": "confirmed"
+    },
+    {
+      "courseCode": "COMP6120",
+      "name": "Software Engineering",
+      "catalogueSession": "Second Semester",
+      "catalogueClaimsS1": false,
+      "classNumber": null,
+      "status": "other_semester"
+    },
+    {
+      "courseCode": "COMP6242",
+      "name": "Deep Learning",
+      "catalogueSession": "First Semester",
+      "catalogueClaimsS1": true,
+      "classNumber": "5089",
+      "status": "confirmed"
+    },
+    {
+      "courseCode": "COMP6261",
+      "name": "Information Theory",
+      "catalogueSession": "Second Semester",
+      "catalogueClaimsS1": false,
+      "classNumber": null,
+      "status": "other_semester"
+    },
+    {
+      "courseCode": "COMP6320",
+      "name": "Artificial Intelligence",
+      "catalogueSession": "First Semester",
+      "catalogueClaimsS1": true,
+      "classNumber": "5053",
+      "status": "confirmed"
+    },
+    {
+      "courseCode": "COMP6434",
+      "name": "Data Wrangling",
+      "catalogueSession": "Second Semester",
+      "catalogueClaimsS1": false,
+      "classNumber": null,
+      "status": "other_semester"
+    },
+    {
+      "courseCode": "COMP6442",
+      "name": "Software Construction",
+      "catalogueSession": "First Semester/Second Semester",
+      "catalogueClaimsS1": true,
+      "classNumber": "5104",
+      "status": "confirmed"
+    },
+    {
+      "courseCode": "COMP6445",
+      "name": "Computing Research Methods",
+      "catalogueSession": "First Semester",
+      "catalogueClaimsS1": true,
+      "classNumber": "5082",
+      "status": "confirmed"
+    },
+    {
+      "courseCode": "COMP6540",
+      "name": "Game Development",
+      "catalogueSession": "",
+      "catalogueClaimsS1": false,
+      "classNumber": null,
+      "status": "no_offerings"
+    },
+    {
+      "courseCode": "COMP7710",
+      "name": "Programming Fundamentals",
+      "catalogueSession": "First Semester/Second Semester",
+      "catalogueClaimsS1": true,
+      "classNumber": "5114",
+      "status": "confirmed"
+    },
+    {
+      "courseCode": "COMP8280",
+      "name": "Responsible Practice, Innovation and Leadership",
+      "catalogueSession": "First Semester/Second Semester",
+      "catalogueClaimsS1": true,
+      "classNumber": "5097",
+      "status": "confirmed"
+    },
+    {
+      "courseCode": "COMP8600",
+      "name": "Statistical Machine Learning",
+      "catalogueSession": "First Semester",
+      "catalogueClaimsS1": true,
+      "classNumber": "5420",
+      "status": "confirmed"
+    },
+    {
+      "courseCode": "COMP8703",
+      "name": "Vulnerability Research and Exploit Mitigation",
+      "catalogueSession": "First Semester",
+      "catalogueClaimsS1": true,
+      "classNumber": "5113",
+      "status": "confirmed"
+    },
+    {
+      "courseCode": "COMP8715",
+      "name": "Advanced Computing Team Project",
+      "catalogueSession": "First Semester/Second Semester",
+      "catalogueClaimsS1": true,
+      "classNumber": "5049",
+      "status": "confirmed"
+    },
+    {
+      "courseCode": "COMP8820",
+      "name": "Exchange Program for Graduate Students in Computer Science",
+      "catalogueSession": "First Semester/Second Semester",
+      "catalogueClaimsS1": true,
+      "classNumber": "4948",
+      "status": "confirmed"
+    },
+    {
+      "courseCode": "COMP8900F",
+      "name": "Master of Philosophy (Computer Science)",
+      "catalogueSession": "Quarter 1/First Semester/Quarter 2/Quarter 3/Second Semester/Quarter 4",
+      "catalogueClaimsS1": true,
+      "classNumber": "3641",
+      "status": "confirmed"
+    },
+    {
+      "courseCode": "COMP9000F",
+      "name": "Doctor of Philosophy (Computer Science)",
+      "catalogueSession": "Quarter 1/First Semester/Quarter 2/Quarter 3/Second Semester/Quarter 4",
+      "catalogueClaimsS1": true,
+      "classNumber": "3755",
+      "status": "confirmed"
+    }
+  ]
+}
