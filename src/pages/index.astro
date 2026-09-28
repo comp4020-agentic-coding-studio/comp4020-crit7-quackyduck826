@@ -168,8 +168,11 @@ const returnTo = (code: string) => `${Astro.url.pathname}${Astro.url.search}#${c
                 <td>{course.firstSemClassNumber ?? "—"}</td>
                 <td>{course.secondSemClassNumber ?? "—"}</td>
                 <td>
-                  {abbreviateSession(course.catalogueSession)}
-                  {!course.hasAnyOffering && <span class="badge">no offerings</span>}
+                  {course.hasAnyOffering ? (
+                    abbreviateSession(course.catalogueSession)
+                  ) : (
+                    <span class="badge">no offerings</span>
+                  )}
                 </td>
                 <td>
                   <form method="post" action="/api/likes" class="like-form">
