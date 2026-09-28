@@ -97,45 +97,48 @@ const returnTo = (code: string) => `${Astro.url.pathname}${Astro.url.search}#${c
     </p>
   </div>
 
-  <form method="get" action="/" class="filters">
-    <input type="hidden" name="submitted" value="1" />
-    <div class="filter-row">
-      <label for="q">Search</label>
-      <input id="q" name="q" type="search" value={q} placeholder="code or title" />
-    </div>
+  <details class="filters-panel" open={!formSubmitted}>
+    <summary>Search &amp; filter</summary>
+    <form method="get" action="/" class="filters">
+      <input type="hidden" name="submitted" value="1" />
+      <div class="filter-row">
+        <label for="q">Search</label>
+        <input id="q" name="q" type="search" value={q} placeholder="code or title" />
+      </div>
 
-    <fieldset class="pills">
-      <legend>Offering (tick any)</legend>
-      {
-        OFFERINGS.map((o) => (
-          <label>
-            <input type="checkbox" name="offering" value={o.value} checked={selectedOfferings.includes(o.value)} />
-            {o.label}
-          </label>
-        ))
-      }
-    </fieldset>
+      <fieldset class="pills">
+        <legend>Offering (tick any)</legend>
+        {
+          OFFERINGS.map((o) => (
+            <label>
+              <input type="checkbox" name="offering" value={o.value} checked={selectedOfferings.includes(o.value)} />
+              {o.label}
+            </label>
+          ))
+        }
+      </fieldset>
 
-    <fieldset class="pills">
-      <legend>Level (tick any)</legend>
-      {
-        LEVELS.map((lvl) => (
-          <label>
-            <input type="checkbox" name="level" value={lvl} checked={selectedLevels.includes(lvl)} />
-            {lvl}
-          </label>
-        ))
-      }
-    </fieldset>
+      <fieldset class="pills">
+        <legend>Level (tick any)</legend>
+        {
+          LEVELS.map((lvl) => (
+            <label>
+              <input type="checkbox" name="level" value={lvl} checked={selectedLevels.includes(lvl)} />
+              {lvl}
+            </label>
+          ))
+        }
+      </fieldset>
 
-    <div class="filter-row">
-      <label class="liked-first-toggle">
-        <input type="checkbox" name="likedFirst" value="1" checked={likedFirst} />
-        Show liked first
-      </label>
-      <button class="filter-submit">Filter</button>
-    </div>
-  </form>
+      <div class="filter-row">
+        <label class="liked-first-toggle">
+          <input type="checkbox" name="likedFirst" value="1" checked={likedFirst} />
+          Show liked first
+        </label>
+        <button class="filter-submit">Filter</button>
+      </div>
+    </form>
+  </details>
 
   <p class="stat-pill">
     Showing <strong>{filtered.length}</strong> of <strong>{allCourses.length}</strong> courses
