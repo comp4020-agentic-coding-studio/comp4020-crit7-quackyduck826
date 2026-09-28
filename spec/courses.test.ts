@@ -124,10 +124,10 @@ describe("course list", () => {
     expect(html).toMatch(/Showing <strong>0<\/strong> of/);
   });
 
-  it("labels the session column 'Running in'", async () => {
+  it("labels the session column, with a full explanation on hover", async () => {
     const res = await fetch(baseUrl);
     const html = await res.text();
-    expect(html).toContain("Running in");
+    expect(html).toContain('title="What ANU\'s site says this course runs">Runs</th>');
   });
 
   it("abbreviates semester and quarter names in the session column", async () => {
