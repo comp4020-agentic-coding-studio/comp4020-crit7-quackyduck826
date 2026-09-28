@@ -64,7 +64,7 @@ a:hover {
 .site-header__inner {
   max-width: 68rem;
   margin: 0 auto;
-  padding: 1rem 1.5rem;
+  padding: 0.5rem 1.5rem;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -76,6 +76,7 @@ a:hover {
   font-family: "Space Grotesk", sans-serif;
   font-weight: 700;
   font-size: 1.15rem;
+  line-height: 1;
   color: var(--text);
   text-decoration: none;
 }
@@ -90,14 +91,16 @@ nav[aria-label="site"] {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-pill);
-  padding: 0.25rem;
+  padding: 0.2rem;
 }
 
 nav[aria-label="site"] a {
-  padding: 0.4rem 1rem;
+  padding: 0.25rem 0.85rem;
   border-radius: var(--radius-pill);
   text-decoration: none;
   font-weight: 500;
+  font-size: 0.9rem;
+  line-height: 1.3;
   color: var(--text-muted);
   transition: background 0.15s ease, color 0.15s ease;
 }
@@ -141,7 +144,7 @@ main {
   box-shadow: var(--shadow-card);
   margin-bottom: 1.25rem;
   position: sticky;
-  top: 4.5rem;
+  top: 2.5rem;
   z-index: 5;
   overflow: hidden;
 }
