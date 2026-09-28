@@ -23,17 +23,30 @@ function offeringMatches(course: Course, offering: string): boolean {
 const allCourses = listCourses();
 
 const q = (Astro.url.searchParams.get("q") ?? "").trim().toLowerCase();
-const selectedOfferings = Astro.url.searchParams.getAll("offering");
-const selectedLevels = Astro.url.searchParams.getAll("level").map(Number);
+
+// On the very first visit there's no query string at all, and every box
+// should read as ticked (showing everything) rather than none — that's the
+// "haven't filtered yet" state, distinct from "submitted with every box
+// unticked" (which should show nothing from that group, taken literally).
+// The hidden "submitted" field is how the two are told apart.
+const formSubmitted = Astro.url.searchParams.has("submitted");
+const selectedOfferings = formSubmitted
+  ? Astro.url.searchParams.getAll("offering")
+  : OFFERINGS.map((o) => o.value);
+const selectedLevels = formSubmitted ? Astro.url.searchParams.getAll("level").map(Number) : [...LEVELS];
 
 // Each checkbox group is OR'd internally (tick "First Semester" and "Second
-// Semester" to see courses confirmed in either) and AND'd across groups.
+// Semester" to see courses confirmed in either) and AND'd across groups. A
+// handful of courses (COMP5920, COMP7710, the COMP9000-series) sit at levels
+// with no checkbox at all (5000/7000/9000 aren't in LEVELS) — rather than
+// let the level filter silently disappear them the moment the form is
+// submitted, they're exempt from it entirely.
 function matches(course: Course): boolean {
   const matchesQuery =
     q === "" || course.courseCode.toLowerCase().includes(q) || course.name.toLowerCase().includes(q);
-  const matchesOffering =
-    selectedOfferings.length === 0 || selectedOfferings.some((o) => offeringMatches(course, o));
-  const matchesLevel = selectedLevels.length === 0 || selectedLevels.includes(levelOf(course));
+  const matchesOffering = !formSubmitted || selectedOfferings.some((o) => offeringMatches(course, o));
+  const level = levelOf(course);
+  const matchesLevel = !formSubmitted || !LEVELS.includes(level as (typeof LEVELS)[number]) || selectedLevels.includes(level);
   return matchesQuery && matchesOffering && matchesLevel;
 }
 
@@ -55,6 +68,7 @@ const anuUrl = (code: string) => `https://programsandcourses.anu.edu.au/2027/cou
   </p>
 
   <form method="get" action="/" class="filters">
+    <input type="hidden" name="submitted" value="1" />
     <div class="filter-row">
       <label for="q">Search</label>
       <input id="q" name="q" type="search" value={q} placeholder="code or title" />

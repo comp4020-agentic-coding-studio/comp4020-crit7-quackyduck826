@@ -5,6 +5,20 @@ import snapshot from "../data/courses-2027-sem1.json";
 // land where — robust to a future re-scrape changing ANU's data.
 const baseUrl = inject("baseUrl");
 
+const ALL_OFFERINGS = ["first_sem", "second_sem", "no_offerings"];
+const ALL_LEVELS = [1000, 2000, 3000, 4000, 6000, 8000];
+
+// A real submission always carries every currently-ticked box from BOTH
+// groups — so isolating "just the offering filter" in a test means leaving
+// every level box ticked (the default), not omitting the level params
+// entirely (which the app reads as "every level box was unticked").
+function filterUrl(opts: { offerings?: string[]; levels?: number[] }): URL {
+  const params = new URLSearchParams({ submitted: "1" });
+  for (const o of opts.offerings ?? ALL_OFFERINGS) params.append("offering", o);
+  for (const l of opts.levels ?? ALL_LEVELS) params.append("level", String(l));
+  return new URL(`/?${params}`, baseUrl);
+}
+
 describe("course list", () => {
   it("scraped at least 100 COMP courses", () => {
     expect(snapshot.courses.length).toBeGreaterThanOrEqual(100);
@@ -25,12 +39,21 @@ describe("course list", () => {
     expect(html).toContain("programsandcourses.anu.edu.au/2027/course/");
   });
 
+  it("on first load, before the form is submitted, every checkbox is ticked", async () => {
+    const res = await fetch(baseUrl);
+    const html = await res.text();
+    const checkboxCount = (html.match(/type="checkbox"/g) ?? []).length;
+    const checkedCount = (html.match(/type="checkbox"[^>]*checked/g) ?? []).length;
+    expect(checkboxCount).toBeGreaterThan(0);
+    expect(checkedCount).toBe(checkboxCount);
+  });
+
   it("filtering by offering shows only courses with a current offering that semester", async () => {
     const included = snapshot.courses.filter((c) => c.hasAnyOffering === false).map((c) => c.courseCode);
     const excluded = snapshot.courses.filter((c) => c.hasAnyOffering !== false).map((c) => c.courseCode);
     expect(included.length).toBeGreaterThan(0);
 
-    const res = await fetch(new URL("/?offering=no_offerings", baseUrl));
+    const res = await fetch(filterUrl({ offerings: ["no_offerings"] }));
     const html = await res.text();
     for (const code of included) expect(html).toContain(code);
     for (const code of excluded) expect(html).not.toContain(code);
@@ -38,31 +61,46 @@ describe("course list", () => {
 
   it("filtering by level shows only courses at that level", async () => {
     const level = 1000;
+    // As above: levels outside the checkbox list (5000/7000/9000) are exempt
+    // from level filtering, so they're excluded from "excluded" here too.
     const included = snapshot.courses
-      .filter((c) => Number(c.courseCode[4]) * 1000 === level)
+      .filter((c) => Number(c.courseCode[4]) * 1000 === level || !ALL_LEVELS.includes(Number(c.courseCode[4]) * 1000))
       .map((c) => c.courseCode);
     const excluded = snapshot.courses
-      .filter((c) => Number(c.courseCode[4]) * 1000 !== level)
+      .filter((c) => {
+        const l = Number(c.courseCode[4]) * 1000;
+        return ALL_LEVELS.includes(l) && l !== level;
+      })
       .map((c) => c.courseCode);
     expect(included.length).toBeGreaterThan(0);
 
-    const res = await fetch(new URL(`/?level=${level}`, baseUrl));
+    const res = await fetch(filterUrl({ levels: [level] }));
     const html = await res.text();
     for (const code of included) expect(html).toContain(code);
     for (const code of excluded) expect(html).not.toContain(code);
   });
 
   it("ticking multiple levels shows courses from any of them (OR, not AND)", async () => {
+    // Courses at a level with no checkbox at all (COMP5920, COMP7710, the
+    // COMP9000-series) are exempt from level filtering entirely — there's no
+    // box to tick to keep them, so they always show. Excluded here means
+    // "has a checkbox, and it wasn't ticked".
     const included = snapshot.courses
-      .filter((c) => [1000, 2000].includes(Number(c.courseCode[4]) * 1000))
+      .filter((c) => {
+        const level = Number(c.courseCode[4]) * 1000;
+        return [1000, 2000].includes(level) || !ALL_LEVELS.includes(level);
+      })
       .map((c) => c.courseCode);
     const excluded = snapshot.courses
-      .filter((c) => ![1000, 2000].includes(Number(c.courseCode[4]) * 1000))
+      .filter((c) => {
+        const level = Number(c.courseCode[4]) * 1000;
+        return ALL_LEVELS.includes(level) && ![1000, 2000].includes(level);
+      })
       .map((c) => c.courseCode);
     expect(included.length).toBeGreaterThan(0);
     expect(excluded.length).toBeGreaterThan(0);
 
-    const res = await fetch(new URL("/?level=1000&level=2000", baseUrl));
+    const res = await fetch(filterUrl({ levels: [1000, 2000] }));
     const html = await res.text();
     for (const code of included) expect(html).toContain(code);
     for (const code of excluded) expect(html).not.toContain(code);
@@ -78,9 +116,15 @@ describe("course list", () => {
     expect(included.length).toBeGreaterThan(0);
     expect(excluded.length).toBeGreaterThan(0);
 
-    const res = await fetch(new URL("/?offering=first_sem&offering=no_offerings", baseUrl));
+    const res = await fetch(filterUrl({ offerings: ["first_sem", "no_offerings"] }));
     const html = await res.text();
     for (const code of included) expect(html).toContain(code);
     for (const code of excluded) expect(html).not.toContain(code);
+  });
+
+  it("submitting with every box in a group unticked shows nothing from that group", async () => {
+    const res = await fetch(filterUrl({ offerings: [] }));
+    const html = await res.text();
+    expect(html).toContain("Showing 0 of");
   });
 });
