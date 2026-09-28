@@ -2,7 +2,7 @@
 import Base from "../layouts/Base.astro";
 import { type Course, coursesScrapedAt, listCourses, listLikedCourseCodes } from "../lib/db";
 
-const LEVELS = [1000, 2000, 3000, 4000, 6000, 8000] as const;
+const LEVELS = [1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000] as const;
 const OFFERINGS = [
   { value: "first_sem", label: "First Semester" },
   { value: "second_sem", label: "Second Semester" },
@@ -58,18 +58,14 @@ const selectedOfferings = formSubmitted
 const selectedLevels = formSubmitted ? Astro.url.searchParams.getAll("level").map(Number) : [...LEVELS];
 
 // Each checkbox group is OR'd internally (tick "First Semester" and "Second
-// Semester" to see courses confirmed in either) and AND'd across groups. A
-// handful of courses (COMP5920, COMP7710, the COMP9000-series) sit at levels
-// with no checkbox at all (5000/7000/9000 aren't in LEVELS) — rather than
-// let the level filter silently disappear them the moment the form is
-// submitted, they're exempt from it entirely.
+// Semester" to see courses confirmed in either) and AND'd across groups.
+// Every level actually present in the data (1000-9000) has a checkbox, so
+// there's no "orphan" level left needing an exemption from this filter.
 function matches(course: Course): boolean {
   const matchesQuery =
     q === "" || course.courseCode.toLowerCase().includes(q) || course.name.toLowerCase().includes(q);
   const matchesOffering = !formSubmitted || selectedOfferings.some((o) => offeringMatches(course, o));
-  const level = levelOf(course);
-  const matchesLevel =
-    !formSubmitted || !LEVELS.includes(level as (typeof LEVELS)[number]) || selectedLevels.includes(level);
+  const matchesLevel = !formSubmitted || selectedLevels.includes(levelOf(course));
   return matchesQuery && matchesOffering && matchesLevel;
 }
 

@@ -6,7 +6,7 @@ import snapshot from "../data/courses-2027-sem1.json";
 const baseUrl = inject("baseUrl");
 
 const ALL_OFFERINGS = ["first_sem", "second_sem", "no_offerings"];
-const ALL_LEVELS = [1000, 2000, 3000, 4000, 6000, 8000];
+const ALL_LEVELS = [1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000];
 
 // A real submission always carries every currently-ticked box from BOTH
 // groups — so isolating "just the offering filter" in a test means leaving
@@ -62,18 +62,14 @@ describe("course list", () => {
 
   it("filtering by level shows only courses at that level", async () => {
     const level = 1000;
-    // As above: levels outside the checkbox list (5000/7000/9000) are exempt
-    // from level filtering, so they're excluded from "excluded" here too.
     const included = snapshot.courses
-      .filter((c) => Number(c.courseCode[4]) * 1000 === level || !ALL_LEVELS.includes(Number(c.courseCode[4]) * 1000))
+      .filter((c) => Number(c.courseCode[4]) * 1000 === level)
       .map((c) => c.courseCode);
     const excluded = snapshot.courses
-      .filter((c) => {
-        const l = Number(c.courseCode[4]) * 1000;
-        return ALL_LEVELS.includes(l) && l !== level;
-      })
+      .filter((c) => Number(c.courseCode[4]) * 1000 !== level)
       .map((c) => c.courseCode);
     expect(included.length).toBeGreaterThan(0);
+    expect(excluded.length).toBeGreaterThan(0);
 
     const res = await fetch(filterUrl({ levels: [level] }));
     const html = await res.text();
@@ -82,21 +78,11 @@ describe("course list", () => {
   });
 
   it("ticking multiple levels shows courses from any of them (OR, not AND)", async () => {
-    // Courses at a level with no checkbox at all (COMP5920, COMP7710, the
-    // COMP9000-series) are exempt from level filtering entirely — there's no
-    // box to tick to keep them, so they always show. Excluded here means
-    // "has a checkbox, and it wasn't ticked".
     const included = snapshot.courses
-      .filter((c) => {
-        const level = Number(c.courseCode[4]) * 1000;
-        return [1000, 2000].includes(level) || !ALL_LEVELS.includes(level);
-      })
+      .filter((c) => [1000, 2000].includes(Number(c.courseCode[4]) * 1000))
       .map((c) => c.courseCode);
     const excluded = snapshot.courses
-      .filter((c) => {
-        const level = Number(c.courseCode[4]) * 1000;
-        return ALL_LEVELS.includes(level) && ![1000, 2000].includes(level);
-      })
+      .filter((c) => ![1000, 2000].includes(Number(c.courseCode[4]) * 1000))
       .map((c) => c.courseCode);
     expect(included.length).toBeGreaterThan(0);
     expect(excluded.length).toBeGreaterThan(0);
@@ -105,6 +91,15 @@ describe("course list", () => {
     const html = await res.text();
     for (const code of included) expect(html).toContain(code);
     for (const code of excluded) expect(html).not.toContain(code);
+  });
+
+  it("has a checkbox for every level actually present in the data", async () => {
+    const dataLevels = new Set(snapshot.courses.map((c) => Number(c.courseCode[4]) * 1000));
+    const res = await fetch(baseUrl);
+    const html = await res.text();
+    for (const level of dataLevels) {
+      expect(html).toContain(`name="level" value="${level}"`);
+    }
   });
 
   it("ticking multiple offerings shows courses matching any of them", async () => {
