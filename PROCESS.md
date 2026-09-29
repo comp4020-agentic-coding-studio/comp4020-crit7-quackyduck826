@@ -4,7 +4,7 @@
 
 A tool that checks every COMP-prefixed course's own ANU page for whether it
 actually has a real offering, for either semester of 2027, instead of
-trusting the catalogue search's claim — a flat, filterable table of all 128
+trusting the catalogue search's claim: a flat, filterable table of all 128
 courses. Each row is likeable (considering it) and independently markable
 taken (already done it); `/my-courses/` pulls both together into one
 shortlist, and every toggle updates in place with no page reload when
@@ -30,7 +30,7 @@ That grounding changed the design mid-plan: I'd expected the interesting case
 to be "claims First Semester but no class number" (`mismatch`), but the first
 real scrape run
 ([`98e7cf3`](https://github.com/comp4020-agentic-coding-studio/comp4020-crit7-quackyduck826/commit/98e7cf3))
-showed that case never actually occurs for COMP courses — the real anomaly is
+showed that case never actually occurs for COMP courses: the real anomaly is
 courses with **zero current offerings at all** (`no_offerings`, 27 of 128),
 still sitting in the search results as if live. I corrected the status
 categories on the spot rather than ship a category that would always read
@@ -55,8 +55,8 @@ deploy was checked against the live URL before moving on.
 ## What changed after that first pass
 
 Notes turned out to be the wrong shape for what a reader actually wants to do
-with a course list — shortlist candidates to decide between, not leave
-commentary — so notes were dropped for a simple like toggle, and ANU's own
+with a course list (shortlist candidates to decide between, not leave
+commentary), so notes were dropped for a simple like toggle, and ANU's own
 session names got abbreviated to fit a table that was starting to run wide
 ([`3a8a8fd`](https://github.com/comp4020-agentic-coding-studio/comp4020-crit7-quackyduck826/commit/3a8a8fd)).
 The page itself then moved from fixed status groups to one flat table with
@@ -71,7 +71,7 @@ a "hide taken" filter, and `/my-courses/` collects everything liked or taken
 into one view, including which semester each course runs
 ([`fce710c`](https://github.com/comp4020-agentic-coding-studio/comp4020-crit7-quackyduck826/commit/fce710c)).
 The like/taken toggles were originally a plain HTML form post with a
-redirect back to the same row — correct, but visibly a full page reload for
+redirect back to the same row: correct, but visibly a full page reload for
 something that should feel instant. Rather than replace that mechanism, a
 small progressive-enhancement script now intercepts the same submit and asks
 the API for JSON instead of a redirect, patching the button (and, on
