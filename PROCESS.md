@@ -6,9 +6,7 @@ A tool that checks every COMP-prefixed course's own ANU page for whether it
 actually has a real offering, for either semester of 2027, instead of
 trusting the catalogue search's claim: a flat, filterable table of all 128
 courses. Each row is likeable (considering it) and independently markable
-taken (already done it); `/my-courses/` pulls both together into one
-shortlist, and every toggle updates in place with no page reload when
-JavaScript is on, falling back to a plain form post when it's off.
+taken (already done it).
 
 ## How I got here
 
@@ -37,28 +35,6 @@ categories on the spot rather than ship a category that would always read
 empty, re-ran the scrape, and spot-checked the four known cases against ANU's
 site by hand before trusting the rest.
 
-From there the build went in small, checkable steps
-([`446aee8...4826001`](https://github.com/comp4020-agentic-coding-studio/comp4020-crit7-quackyduck826/compare/446aee8...4826001)):
-the scraper first (fetch + filter, then full page parsing), then the schema
-and boot-time reseed, then the course-list page replacing the guestbook, then
-a persistent per-course notes feature, then retiring the guestbook's table
-once nothing referenced it, then the spec tests. I ran `pnpm check` after
-every step and didn't move on until it was green, and checked the rendered
-page directly (`astro preview` + `curl`) after the course-list rewrite to
-confirm the status groups and filter actually worked before writing the spec
-assertions for them.
-
-I deployed to Fly after each meaningful commit rather than on a timer, since
-a scheduled deploy could catch the repo mid-edit with a broken build; each
-deploy was checked against the live URL before moving on.
-
-## What changed after that first pass
-
-Notes turned out to be the wrong shape for what a reader actually wants to do
-with a course list (shortlist candidates to decide between, not leave
-commentary), so notes were dropped for a simple like toggle, and ANU's own
-session names got abbreviated to fit a table that was starting to run wide
-([`3a8a8fd`](https://github.com/comp4020-agentic-coding-studio/comp4020-crit7-quackyduck826/commit/3a8a8fd)).
 The page itself then moved from fixed status groups to one flat table with
 tickable offering/level checkboxes (every box ticked by default, so an
 untouched filter reads as "show everything" rather than "show nothing"), a
