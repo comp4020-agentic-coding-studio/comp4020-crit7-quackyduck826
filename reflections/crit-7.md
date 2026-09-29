@@ -13,9 +13,9 @@ correct the plan, not the other way round.
 
 **What this changed about who I want to be as a developer** The thing that 
 made this trustworthy wasn't more code, it was spot-checking known cases 
-by hand against ANU's own site before writing thespec tests, and then writing 
+by hand against ANU's own site before writing the spec tests, and then writing 
 those tests against the scraper's own output rather than hardcoded course 
 codes, so they'd stay honest under a future re-scrape instead of just asserting 
 today's snapshot. I want that same instinct: verify against the source, then 
 write tests that check the relationship rather than a fixed answer, anywhere 
-I'm building on data Idon't control.
+I'm building on data I don't control.
