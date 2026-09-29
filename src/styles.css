@@ -431,6 +431,49 @@ form.like-form {
   transform: scale(0.9);
 }
 
+/* ---------- taken button ---------- */
+
+.taken-button {
+  padding: 0.15rem 0.4rem;
+  font-size: 1.3rem;
+  line-height: 1;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--accent);
+  transition: transform 0.12s ease;
+}
+
+.taken-button:hover {
+  transform: scale(1.2);
+}
+
+.taken-button:active {
+  transform: scale(0.9);
+}
+
+/* ---------- status badges (my-courses) ---------- */
+
+.status-badge {
+  display: inline-block;
+  margin-inline-end: 0.3rem;
+  padding: 0.1rem 0.5rem;
+  border-radius: var(--radius-pill);
+  background: var(--accent-soft);
+  color: var(--accent-hover);
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.empty-state {
+  padding: 1.5rem;
+  text-align: center;
+  color: var(--text-muted, #666);
+}
+
 /* ---------- readme page ---------- */
 
 main :is(h1, h2, h3) {

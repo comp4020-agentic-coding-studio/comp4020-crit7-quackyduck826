@@ -40,3 +40,13 @@ export const likedCourses = sqliteTable("liked_courses", {
     .default(sql`(datetime('now'))`),
 });
 export type LikedCourse = typeof likedCourses.$inferSelect;
+
+// Independent of likedCourses: "liked" means considering taking it, "taken"
+// means already done it. Same no-FK reasoning as likedCourses above.
+export const takenCourses = sqliteTable("taken_courses", {
+  courseCode: text("course_code").primaryKey(),
+  takenAt: text("taken_at")
+    .notNull()
+    .default(sql`(datetime('now'))`),
+});
+export type TakenCourse = typeof takenCourses.$inferSelect;

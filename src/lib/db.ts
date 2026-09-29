@@ -5,7 +5,7 @@ import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/better-sqlite3";
 import { migrate } from "drizzle-orm/better-sqlite3/migrator";
 import coursesSnapshot from "../../data/courses-2027-sem1.json";
-import { type Course, courses, likedCourses } from "./schema";
+import { type Course, courses, likedCourses, takenCourses } from "./schema";
 
 // One SQLite file is the app's whole persistent state. In production
 // fly.toml points DATABASE_PATH at the machine's volume (/data), which is
@@ -64,5 +64,22 @@ export function toggleLike(courseCode: string): boolean {
     return false;
   }
   db.insert(likedCourses).values({ courseCode }).run();
+  return true;
+}
+
+export function listTakenCourseCodes(): Set<string> {
+  return new Set(db.select({ courseCode: takenCourses.courseCode }).from(takenCourses).all().map((r) => r.courseCode));
+}
+
+// Toggles taken: if the course is already marked taken, unmarks it;
+// otherwise marks it. Returns whether it ends up taken. Independent of
+// toggleLike — a course can be liked, taken, both, or neither.
+export function toggleTaken(courseCode: string): boolean {
+  const existing = db.select().from(takenCourses).where(eq(takenCourses.courseCode, courseCode)).get();
+  if (existing) {
+    db.delete(takenCourses).where(eq(takenCourses.courseCode, courseCode)).run();
+    return false;
+  }
+  db.insert(takenCourses).values({ courseCode }).run();
   return true;
 }

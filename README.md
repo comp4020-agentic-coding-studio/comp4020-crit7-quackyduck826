@@ -13,11 +13,14 @@ running, and course level (1000/2000/3000/4000/6000/8000) — rather than
 pre-sorting courses into fixed groups, so a reader can slice the list however
 they're actually using it.
 
-A second, small feature sits alongside it: courses are likeable. Tick the
-heart on any row to mark it, and the list can be sorted to show liked courses
-first — a shortlist that's saved and shared with everyone, surviving a reload
-the way the list of courses itself deliberately doesn't (that list gets
-replaced wholesale by the latest scrape on every boot).
+A second, small feature sits alongside it: courses are likeable and
+markable-taken, two independent toggles per row. Liking is for a course
+you're considering; taken is for one you've already done. The list can be
+sorted to show liked courses first, or filtered to hide taken ones outright,
+and `/my-courses/` pulls both into one shortlist view. All of it is saved
+and shared with everyone, surviving a reload the way the list of courses
+itself deliberately doesn't (that list gets replaced wholesale by the latest
+scrape on every boot).
 
 ## What good looks like here
 

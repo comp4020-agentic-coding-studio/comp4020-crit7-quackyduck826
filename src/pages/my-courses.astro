@@ -1,0 +1,104 @@
+---
+import Base from "../layouts/Base.astro";
+import { listCourses, listLikedCourseCodes, listTakenCourseCodes } from "../lib/db";
+import { abbreviateSession } from "../lib/session";
+
+const allCourses = listCourses();
+const likedCodes = listLikedCourseCodes();
+const takenCodes = listTakenCourseCodes();
+
+const myCourses = allCourses.filter((c) => likedCodes.has(c.courseCode) || takenCodes.has(c.courseCode));
+
+const anuUrl = (code: string) => `https://programsandcourses.anu.edu.au/2027/course/${code.toLowerCase()}`;
+// Same no-JS form-POST-then-redirect pattern as "/" — toggling here should
+// keep you on this page rather than bouncing you to "/".
+const returnTo = (code: string) => `${Astro.url.pathname}${Astro.url.search}#${code}`;
+---
+
+<Base title="My courses — 2027">
+  <div class="page-intro">
+    <h1>My courses</h1>
+    <p>
+      Everything you've liked (courses you're thinking about taking) or marked
+      taken (courses you've already done), in one list.
+    </p>
+  </div>
+
+  {
+    myCourses.length === 0 ? (
+      <p class="empty-state">
+        Nothing here yet — like or mark a course taken from the <a href="/">courses list</a> and it'll show up here.
+      </p>
+    ) : (
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Code</th>
+              <th scope="col">Title</th>
+              <th scope="col">Status</th>
+              <th scope="col" title="What ANU's site says this course runs">Runs</th>
+              <th scope="col">Liked</th>
+              <th scope="col">Taken</th>
+              <th scope="col">Link</th>
+            </tr>
+          </thead>
+          <tbody>
+            {myCourses.map((course) => {
+              const liked = likedCodes.has(course.courseCode);
+              const taken = takenCodes.has(course.courseCode);
+              return (
+                <tr id={course.courseCode}>
+                  <td class="code-cell">{course.courseCode}</td>
+                  <td>{course.name}</td>
+                  <td>
+                    {liked && <span class="status-badge">Liked</span>}
+                    {taken && <span class="status-badge">Taken</span>}
+                  </td>
+                  <td>
+                    {course.hasAnyOffering ? (
+                      abbreviateSession(course.catalogueSession)
+                    ) : (
+                      <span class="badge">no offerings</span>
+                    )}
+                  </td>
+                  <td>
+                    <form method="post" action="/api/likes" class="like-form">
+                      <input type="hidden" name="courseCode" value={course.courseCode} />
+                      <input type="hidden" name="returnTo" value={returnTo(course.courseCode)} />
+                      <button
+                        type="submit"
+                        class="like-button"
+                        aria-label={liked ? `Unlike ${course.courseCode}` : `Like ${course.courseCode}`}
+                      >
+                        {liked ? "♥" : "♡"}
+                      </button>
+                    </form>
+                  </td>
+                  <td>
+                    <form method="post" action="/api/taken" class="like-form">
+                      <input type="hidden" name="courseCode" value={course.courseCode} />
+                      <input type="hidden" name="returnTo" value={returnTo(course.courseCode)} />
+                      <button
+                        type="submit"
+                        class="taken-button"
+                        aria-label={
+                          taken ? `Unmark ${course.courseCode} as taken` : `Mark ${course.courseCode} as taken`
+                        }
+                      >
+                        {taken ? "✓" : "○"}
+                      </button>
+                    </form>
+                  </td>
+                  <td>
+                    <a href={anuUrl(course.courseCode)}>ANU page</a>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+    )
+  }
+</Base>
