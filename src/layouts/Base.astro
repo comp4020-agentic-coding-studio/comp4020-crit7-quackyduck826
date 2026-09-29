@@ -35,5 +35,101 @@ const { title } = Astro.props;
     <main>
       <slot />
     </main>
+    <script>
+      // Progressive enhancement for the like/taken toggle forms on "/" and
+      // "/my-courses/": intercept the submit, ask the API for JSON instead
+      // of a redirect, and patch the DOM in place. A browser with
+      // JavaScript off (or this script failing to load) still gets the
+      // exact same toggle via the form's own method="post" action and the
+      // API's redirect fallback — see src/pages/api/likes.ts and taken.ts.
+      function isToggleForm(form: HTMLFormElement): "likes" | "taken" | null {
+        if (form.action.includes("/api/likes")) return "likes";
+        if (form.action.includes("/api/taken")) return "taken";
+        return null;
+      }
+
+      function adjustShowingCount(delta: number) {
+        const strong = document.querySelector(".stat-pill strong");
+        if (!strong) return;
+        const n = Number(strong.textContent);
+        if (!Number.isNaN(n)) strong.textContent = String(n + delta);
+      }
+
+      function showEmptyStateIfNeeded() {
+        const tableWrap = document.querySelector(".table-wrap");
+        if (!tableWrap || tableWrap.querySelector("tbody tr")) return;
+        const empty = document.createElement("p");
+        empty.className = "empty-state";
+        empty.innerHTML = 'Nothing here yet — like or mark a course taken from the <a href="/">courses list</a> and it\'ll show up here.';
+        tableWrap.replaceWith(empty);
+      }
+
+      document.addEventListener("submit", async (event) => {
+        const form = event.target;
+        if (!(form instanceof HTMLFormElement)) return;
+        const kind = isToggleForm(form);
+        if (!kind) return;
+        event.preventDefault();
+
+        const params = new URLSearchParams();
+        for (const [key, value] of new FormData(form)) params.append(key, String(value));
+
+        const res = await fetch(form.action, {
+          method: "POST",
+          headers: { accept: "application/json" },
+          body: params,
+        });
+        if (!res.ok) return;
+        const data: { courseCode: string; liked?: boolean; taken?: boolean } = await res.json();
+
+        const button = form.querySelector("button");
+        const row = form.closest("tr");
+        if (!button || !row) return;
+
+        if (kind === "likes") {
+          button.textContent = data.liked ? "♥" : "♡";
+          button.setAttribute("aria-label", data.liked ? `Unlike ${data.courseCode}` : `Like ${data.courseCode}`);
+        } else {
+          button.textContent = data.taken ? "✓" : "○";
+          button.setAttribute(
+            "aria-label",
+            data.taken ? `Unmark ${data.courseCode} as taken` : `Mark ${data.courseCode} as taken`,
+          );
+        }
+
+        // "/my-courses/" only ever shows liked-or-taken courses — once a row
+        // is neither, it belongs off the page, not just visually updated.
+        const statusCell = row.querySelector(".status-cell");
+        if (statusCell) {
+          const badgeKind = kind === "likes" ? "liked" : "taken";
+          const isSet = kind === "likes" ? data.liked : data.taken;
+          const existing = statusCell.querySelector(`[data-badge="${badgeKind}"]`);
+          if (isSet && !existing) {
+            const badge = document.createElement("span");
+            badge.className = "status-badge";
+            badge.dataset.badge = badgeKind;
+            badge.textContent = badgeKind === "liked" ? "Liked" : "Taken";
+            statusCell.append(badge);
+          } else if (!isSet && existing) {
+            existing.remove();
+          }
+          if (!statusCell.querySelector("[data-badge]")) {
+            row.remove();
+            showEmptyStateIfNeeded();
+          }
+        }
+
+        // On "/", the "hide taken courses" filter is a server-side query
+        // param — a row it would now exclude should disappear immediately
+        // rather than wait for the next filter submit or reload.
+        if (!statusCell && kind === "taken" && data.taken) {
+          const hideTaken = new URLSearchParams(location.search).get("hideTaken") === "1";
+          if (hideTaken) {
+            row.remove();
+            adjustShowingCount(-1);
+          }
+        }
+      });
+    </script>
   </body>
 </html>

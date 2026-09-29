@@ -59,3 +59,22 @@ describe("liking a course", () => {
     expect(html.indexOf(`>${courseB.courseCode}<`)).toBeLessThan(html.indexOf(`>${courseA.courseCode}<`));
   });
 });
+
+describe("the JSON toggle contract public/toggle.js relies on", () => {
+  // A distinct, self-contained probe (toggles itself back off), so it
+  // doesn't depend on or interfere with the shared afterAll above.
+  const jsonProbe = sortedByCode[7];
+
+  it("responds with JSON instead of redirecting when asked for it", async () => {
+    const res = await postLike(jsonProbe.courseCode, "/");
+    expect(res.status).toBe(303); // no accept header here — the no-JS fallback still redirects
+    const jsonRes = await fetch(new URL("/api/likes", baseUrl), {
+      method: "POST",
+      headers: { origin: baseUrl, accept: "application/json" },
+      body: new URLSearchParams({ courseCode: jsonProbe.courseCode, returnTo: "/" }),
+    });
+    expect(jsonRes.status).toBe(200);
+    // The first postLike above left it liked; this call toggles it back off.
+    expect(await jsonRes.json()).toEqual({ courseCode: jsonProbe.courseCode, liked: false });
+  });
+});

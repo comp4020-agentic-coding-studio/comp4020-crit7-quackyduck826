@@ -71,3 +71,26 @@ describe("marking a course taken", () => {
     expect(html).not.toContain(`>${courseB.courseCode}<`);
   });
 });
+
+describe("the JSON toggle contract public/toggle.js relies on", () => {
+  // A distinct probe again — self-contained (toggles itself back off), so it
+  // doesn't need the shared afterAll above.
+  const jsonProbe = sortedByCode[6];
+
+  it("responds with JSON instead of redirecting when asked for it", async () => {
+    const res = await fetch(new URL("/api/taken", baseUrl), {
+      method: "POST",
+      headers: { origin: baseUrl, accept: "application/json" },
+      body: new URLSearchParams({ courseCode: jsonProbe.courseCode, returnTo: "/" }),
+    });
+    expect(res.status).toBe(200);
+    expect(await res.json()).toEqual({ courseCode: jsonProbe.courseCode, taken: true });
+
+    const revert = await fetch(new URL("/api/taken", baseUrl), {
+      method: "POST",
+      headers: { origin: baseUrl, accept: "application/json" },
+      body: new URLSearchParams({ courseCode: jsonProbe.courseCode, returnTo: "/" }),
+    });
+    expect(await revert.json()).toEqual({ courseCode: jsonProbe.courseCode, taken: false });
+  });
+});

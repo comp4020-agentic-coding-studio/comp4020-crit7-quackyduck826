@@ -14,6 +14,13 @@
   --radius-md: 0.75rem;
   --radius-pill: 999px;
   --shadow-card: 0 1px 2px rgba(26, 21, 35, 0.06), 0 12px 32px -16px rgba(26, 21, 35, 0.18);
+  /* Heights of the two sticky bars above the table, so the table's own
+     sticky header row can stack directly under both without overlapping.
+     --sticky-header-h matches .site-header's rendered height; --sticky-filters-h
+     matches .filters-panel's collapsed (summary-only) height — the state it's
+     in whenever you're scrolling a results list, per its own comment above. */
+  --sticky-header-h: 2.5rem;
+  --sticky-filters-h: 3.5rem;
 }
 
 * {
@@ -144,7 +151,7 @@ main {
   box-shadow: var(--shadow-card);
   margin-bottom: 1.25rem;
   position: sticky;
-  top: 2.5rem;
+  top: var(--sticky-header-h);
   z-index: 5;
   overflow: hidden;
 }
@@ -329,8 +336,12 @@ fieldset.pills label:hover {
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-card);
-  overflow: auto;
-  max-height: 70vh;
+  /* No height cap and no scroll container here — the table grows to fit
+     every row and the page itself scrolls, so the sticky header above and
+     the sticky table header below can both stick to the viewport (a sticky
+     element only sticks within the nearest scrolling ancestor, which must
+     stay the page, not this box). Wide tables still scroll horizontally on
+     narrow screens via the page itself. */
 }
 
 table {
@@ -355,7 +366,7 @@ td:nth-child(2) {
 
 thead th {
   position: sticky;
-  top: 0;
+  top: var(--sticky-header-h);
   background: var(--text);
   color: #fff;
   font-family: "Space Grotesk", sans-serif;
@@ -364,6 +375,14 @@ thead th {
   text-transform: uppercase;
   letter-spacing: 0.03em;
   z-index: 1;
+}
+
+/* On "/", a filters panel sits above the table and is sticky itself, so the
+   table's own sticky header needs to stack below it rather than at
+   --sticky-header-h — "/my-courses/" has no filters panel and keeps the
+   default above. */
+.filters-panel ~ .table-wrap thead th {
+  top: calc(var(--sticky-header-h) + var(--sticky-filters-h));
 }
 
 tbody tr {

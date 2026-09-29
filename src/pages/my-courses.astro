@@ -51,9 +51,17 @@ const returnTo = (code: string) => `${Astro.url.pathname}${Astro.url.search}#${c
                 <tr id={course.courseCode}>
                   <td class="code-cell">{course.courseCode}</td>
                   <td>{course.name}</td>
-                  <td>
-                    {liked && <span class="status-badge">Liked</span>}
-                    {taken && <span class="status-badge">Taken</span>}
+                  <td class="status-cell">
+                    {liked && (
+                      <span class="status-badge" data-badge="liked">
+                        Liked
+                      </span>
+                    )}
+                    {taken && (
+                      <span class="status-badge" data-badge="taken">
+                        Taken
+                      </span>
+                    )}
                   </td>
                   <td>
                     {course.hasAnyOffering ? (

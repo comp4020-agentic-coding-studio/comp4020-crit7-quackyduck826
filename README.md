@@ -20,7 +20,10 @@ sorted to show liked courses first, or filtered to hide taken ones outright,
 and `/my-courses/` pulls both into one shortlist view. All of it is saved
 and shared with everyone, surviving a reload the way the list of courses
 itself deliberately doesn't (that list gets replaced wholesale by the latest
-scrape on every boot).
+scrape on every boot). Every toggle is a plain HTML form post underneath, so
+it works with JavaScript off; with it on, a small script asks the same
+endpoint for JSON instead of a redirect and patches the button in place, so
+marking a course taken doesn't reload the page.
 
 ## What good looks like here
 

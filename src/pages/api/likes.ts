@@ -11,15 +11,20 @@ function safeReturnTo(value: FormDataEntryValue | null): string {
 // Mirrors the rest of this app's write path: a plain HTML form POSTs here
 // (the like icon on each course row), the toggle applies, and a 303 redirect
 // back to wherever the row was — current filters, sort and all — re-renders
-// from the database. No client-side JavaScript required.
+// from the database. That redirect is the no-JS fallback; public/toggle.js
+// intercepts the same submit and asks for JSON instead, so a browser with
+// scripting on updates the button in place with no navigation at all.
 export const POST: APIRoute = async ({ request, redirect }) => {
   const form = await request.formData();
   const courseCode = String(form.get("courseCode") ?? "")
     .trim()
     .toUpperCase();
   const returnTo = safeReturnTo(form.get("returnTo"));
-  if (courseCode) {
-    toggleLike(courseCode);
+  const liked = courseCode ? toggleLike(courseCode) : false;
+  if (request.headers.get("accept")?.includes("application/json")) {
+    return new Response(JSON.stringify({ courseCode, liked }), {
+      headers: { "content-type": "application/json" },
+    });
   }
   return redirect(returnTo, 303);
 };
